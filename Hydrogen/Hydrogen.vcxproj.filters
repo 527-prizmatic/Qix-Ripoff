@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{3d098914-3002-47a7-a29b-15117cc2ae33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{4dce2f45-9221-473d-9261-a2132800c356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Controls">
+      <UniqueIdentifier>{532e2df8-04ba-49e1-993d-665907ab46a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Controls">
+      <UniqueIdentifier>{07d21a68-0648-44cd-8ca7-d044c528ddc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Toolbox">
+      <UniqueIdentifier>{e26a0c83-8e2d-4a07-a1a7-aaecca5c8e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Toolbox">
+      <UniqueIdentifier>{bd7303d5-d92d-4105-a37c-7e302ccec8f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\State Machine">
+      <UniqueIdentifier>{384a50f5-de68-47a9-84a3-6618feadf51a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine">
+      <UniqueIdentifier>{17fdd027-7914-4975-8913-ac04ffece0c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core Systems">
+      <UniqueIdentifier>{f9e47dd5-b8ef-4212-a5cd-6ec3d35fe040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core Systems">
+      <UniqueIdentifier>{56218a91-127a-48d9-9901-70caa41f1ed4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BouncingBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="controls\Mouse.cpp">
+      <Filter>Source Files\Engine\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="controls\Keyboard.cpp">
+      <Filter>Source Files\Engine\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="toolbox\time.cpp">
+      <Filter>Source Files\Engine\Toolbox</Filter>
+    </ClCompile>
+    <ClCompile Include="toolbox\custom_math.cpp">
+      <Filter>Source Files\Engine\Toolbox</Filter>
+    </ClCompile>
+    <ClCompile Include="toolbox\interpolation.cpp">
+      <Filter>Source Files\Engine\Toolbox</Filter>
+    </ClCompile>
+    <ClCompile Include="toolbox\random.cpp">
+      <Filter>Source Files\Engine\Toolbox</Filter>
+    </ClCompile>
+    <ClCompile Include="states\Game.cpp">
+      <Filter>Source Files\State Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="states\Menu.cpp">
+      <Filter>Source Files\State Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="Preinit.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Source Files\Engine\Core Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Engine\Core Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BouncingBox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="controls\Mouse.hpp">
+      <Filter>Header Files\Engine\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="controls\Keyboard.hpp">
+      <Filter>Header Files\Engine\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="toolbox\toolbox.hpp">
+      <Filter>Header Files\Engine\Toolbox</Filter>
+    </ClInclude>
+    <ClInclude Include="toolbox\time.hpp">
+      <Filter>Header Files\Engine\Toolbox</Filter>
+    </ClInclude>
+    <ClInclude Include="toolbox\custom_math.hpp">
+      <Filter>Header Files\Engine\Toolbox</Filter>
+    </ClInclude>
+    <ClInclude Include="toolbox\interpolation.hpp">
+      <Filter>Header Files\Engine\Toolbox</Filter>
+    </ClInclude>
+    <ClInclude Include="toolbox\random.hpp">
+      <Filter>Header Files\Engine\Toolbox</Filter>
+    </ClInclude>
+    <ClInclude Include="states\State.hpp">
+      <Filter>Header Files\State Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="states\Game.hpp">
+      <Filter>Header Files\State Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="states\Menu.hpp">
+      <Filter>Header Files\State Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="Preinit.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.hpp">
+      <Filter>Header Files\Engine\Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.hpp">
+      <Filter>Header Files\Engine\Core Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
