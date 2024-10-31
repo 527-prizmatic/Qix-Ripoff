@@ -29,7 +29,7 @@ namespace states {
 		this->core->getWindow().draw(sprite);
 
 		text.setString("Play");
-		text.setCharacterSize(5);
+		text.setCharacterSize(15);
 		text.setFillColor(sf::Color::White);
 		text.setPosition(100, 100);
 		this->core->getWindow().draw(text);
