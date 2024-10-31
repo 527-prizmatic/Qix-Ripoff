@@ -48,6 +48,16 @@ void Window::endRendering() {
 }
 
 void Window::update() {
+	this->size = this->window.get()->getSize();
+	this->aspectRatio = (float)this->size.x / (float)this->size.y;
+
+	if (this->currentView.has_value()) {
+		this->window->setView(this->currentView.value()->getView());
+	}
+	else {
+		this->window->setView(this->window.get()->getDefaultView());
+	}
+
 	while (this->window->pollEvent(this->evt)) {
 		if (this->evt.type == sf::Event::Closed)
 			this->window->close();
@@ -66,8 +76,13 @@ void Window::draw(sf::Drawable& _obj) {
 	this->rTex->draw(_obj);
 }
 
-/*
-sf::RenderWindow* Window::operator->() const noexcept {
-	return this->window.get();
+sf::Vector2f Window::forceAspectRatio(sf::Vector2f _input, float _ratio) {
+	float ratioOff = this->aspectRatio / _ratio;
+	if (ratioOff > 1.f) {
+		_input.x *= ratioOff;
+	}
+	else {
+		_input.y *= ratioOff;
+	}
+	return _input;
 }
-*/

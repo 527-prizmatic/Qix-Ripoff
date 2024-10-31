@@ -84,6 +84,9 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Engine\Core Systems</Filter>
     </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files\Engine\Core Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BouncingBox.hpp">
@@ -126,6 +129,9 @@
       <Filter>Header Files\Engine\Core Systems</Filter>
     </ClInclude>
     <ClInclude Include="Core.hpp">
+      <Filter>Header Files\Engine\Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="View.hpp">
       <Filter>Header Files\Engine\Core Systems</Filter>
     </ClInclude>
   </ItemGroup>

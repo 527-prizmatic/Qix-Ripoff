@@ -2,6 +2,8 @@
 #include "BouncingBox.hpp"
 #include "Preinit.hpp"
 
+const float targetAspectRatio = 256.f / 224.f;
+
 Core::Core() {
 	this->window = Window(800U, 600U, "pavouk", false);
 	this->mouse.setWindow(&this->window);
@@ -10,6 +12,7 @@ Core::Core() {
 	this->nextState = NONE;
 	this->initPending = true;
 	this->stateChangePending = false;
+	this->window.setView(new View(sf::Vector2f(0.f, 0.f), sf::Vector2f(256.f, 224.f)));
 
 	preinit(*this);
 	registerControls(*this);
@@ -26,9 +29,12 @@ void Core::initState() {
 
 void Core::update() {
 	tutil::restart();
-	this->window.update();
 	this->mouse.update();
 	this->kb.update();
+
+	this->window.getView()->setSize(this->window.forceAspectRatio(sf::Vector2f(256.f, 224.f), targetAspectRatio));
+	this->window.getView()->setCenter(sf::Vector2f(128.f, 112.f));
+	this->window.update();
 	
 	this->stateReg[this->state]->update();
 }
