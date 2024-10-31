@@ -21,7 +21,7 @@ void Core::init() {
 
 void Core::initState() {
 	initPending = false;
-	this->stateReg[this->state]->init();
+	this->stateReg[this->state]->init();	
 }
 
 void Core::update() {
