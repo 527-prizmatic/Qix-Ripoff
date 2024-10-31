@@ -14,15 +14,9 @@ namespace states {
 	void Menu::init() {
 		font.loadFromFile("../assets/fonts/qix-small.ttf");
 		text.setFont(font);
-		text.setString("Press Enter to start");
-		text.setCharacterSize(24);
-		text.setFillColor(sf::Color::White);
-		text.setPosition(100, 100);
 
 		texture.loadFromFile("../assets/Textures/bgMenu.png");
 		sprite.setTexture(texture);
-		sprite.setScale(1.f, 1.f);
-		sprite.setPosition(0, 0);
 	}
 
 	void Menu::update() {
@@ -30,7 +24,26 @@ namespace states {
 	}
 
 	void Menu::render() {
+		sprite.setScale(1.f, 1.f);
+		sprite.setPosition(0, 0);
 		this->core->getWindow().draw(sprite);
+
+		text.setString("Play");
+		text.setCharacterSize(5);
+		text.setFillColor(sf::Color::White);
+		text.setPosition(100, 100);
+		this->core->getWindow().draw(text);
+
+		text.setString("Options");
+		text.setCharacterSize(5);
+		text.setFillColor(sf::Color::White);
+		text.setPosition(100, 130);
+		this->core->getWindow().draw(text);
+
+		text.setString("Hight socre");
+		text.setCharacterSize(5);
+		text.setFillColor(sf::Color::White);
+		text.setPosition(100, 160);
 		this->core->getWindow().draw(text);
 	}
 
