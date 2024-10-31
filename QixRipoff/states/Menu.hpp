@@ -12,5 +12,7 @@ namespace states {
 		void update();
 		void render();
 		void unload();
+
+		void treatPinkPixelTexture(sf::Texture& texture);
 	};
 }

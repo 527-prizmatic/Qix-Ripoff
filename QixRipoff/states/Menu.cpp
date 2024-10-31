@@ -16,6 +16,7 @@ namespace states {
 		text.setFont(font);
 
 		texture.loadFromFile("../assets/Textures/bgMenu.png");
+		treatPinkPixelTexture(texture);
 		sprite.setTexture(texture);
 	}
 
@@ -48,5 +49,20 @@ namespace states {
 	}
 
 	void Menu::unload() {
+	}
+	void Menu::treatPinkPixelTexture(sf::Texture& texture)
+	{
+		sf::Image image = texture.copyToImage();
+		for (int x = 0; x < image.getSize().x; x++)
+		{
+			for (int y = 0; y < image.getSize().y; y++)
+			{
+				if (image.getPixel(x, y) == sf::Color(171, 0, 66) || image.getPixel(x, y) == sf::Color(255, 0, 182))
+				{
+					image.setPixel(x, y, sf::Color::Transparent);
+				}
+			}
+		}
+		texture.update(image);
 	}
 }
