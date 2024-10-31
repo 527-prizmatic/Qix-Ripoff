@@ -1,15 +1,18 @@
 #pragma once
-#include <string>
 #include "toolbox/toolbox.hpp"
+#include "View.hpp"
 
 class Window {
 private:
 	std::unique_ptr<sf::RenderWindow> window;
 	std::unique_ptr<sf::RenderTexture> rTex;
+	std::optional<View*> currentView;
+	
 	std::string title;
 	bool fullscreen;
 	sf::Vector2u size;
 	sf::Event evt;
+	float aspectRatio;
 
 	static sf::Sprite renderSpr;
 	void setup();
@@ -29,6 +32,9 @@ public:
 	bool hasFocus() { return this->window->hasFocus(); }
 	sf::Vector2u getSize() { return this->size; }
 
-	// Discarded that one, too error-prone
-//	sf::RenderWindow* operator->() const noexcept;
+	sf::Vector2f forceAspectRatio(sf::Vector2f _input, float _ratio);
+
+	inline void setView(View* _v) { this->currentView = _v; }
+	inline View* getView() { return this->currentView.value(); }
+	inline void resetView() { this->currentView.reset(); }
 };
