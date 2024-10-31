@@ -1,4 +1,9 @@
 #pragma once
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <optional>
+
 #include "SFML/System.hpp"
 #include "SFML/Graphics.hpp"
 
