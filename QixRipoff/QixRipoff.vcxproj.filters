@@ -93,6 +93,9 @@
     <ClCompile Include="GameField.cpp">
       <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controls\Mouse.hpp">
@@ -138,6 +141,9 @@
       <Filter>Header Files\Engine\Core Systems</Filter>
     </ClInclude>
     <ClInclude Include="GameField.hpp">
+      <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
       <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
   </ItemGroup>

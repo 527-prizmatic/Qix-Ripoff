@@ -146,6 +146,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Preinit.cpp" />
     <ClCompile Include="states\Game.cpp" />
     <ClCompile Include="states\Menu.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="controls\Mouse.hpp" />
     <ClInclude Include="Core.hpp" />
     <ClInclude Include="GameField.hpp" />
+    <ClInclude Include="Player.hpp" />
     <ClInclude Include="Preinit.hpp" />
     <ClInclude Include="states\Game.hpp" />
     <ClInclude Include="states\Menu.hpp" />
