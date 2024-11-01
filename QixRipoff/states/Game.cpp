@@ -1,6 +1,5 @@
 #include "Game.hpp"
 #include "../Core.hpp"
-#include "../BouncingBox.hpp"
 
 namespace states {
 	Game::Game(Core* _core) {
@@ -8,22 +7,25 @@ namespace states {
 	}
 
 	void Game::init() {
-		for (int i = 0; i < 100; i++) {
-			BouncingBox::create(BouncingBox(sf::Vector2f(rand() % 600 + 50.f, rand() % 400 + 50.f), vect::normalize(sf::Vector2f(rand() % 201 - 100.f, rand() % 201 - 100.f)) * 100.f, sf::Vector2f(10.f, 10.f)));
-		}
+		this->field = GameField(sf::Vector2u(128U, 128U));
+		this->field.setPixel(sf::Vector2u(2, 2), FieldPixelState::CLAIMED_BLUE);
 	}
 
 	void Game::update() {
-		BouncingBox::updateAll(this->core->getWindow());
+		if (this->core->getMouse().held(sf::Mouse::Middle)) {
+			this->field.setPixel(sf::Vector2u(rand() % 128, rand() % 128), FieldPixelState::CLAIMED_BLUE);
+			this->field.generateTexture();
+		}
+
 		if (this->core->getKeyboard().pressed("OpenMenu") || this->core->getMouse().clicked(sf::Mouse::Left)) this->core->requestStateChange(GameState::MENU);
 		if (this->core->getMouse().clicked(sf::Mouse::Right)) this->core->getKeyboard().setKey("OpenMenu", sf::Keyboard::Key::R);
 	}
 
 	void Game::render() {
-		BouncingBox::renderAll(this->core->getWindow());
+		this->field.render(this->core->getWindow());
 	}
 
 	void Game::unload() {
-		BouncingBox::clearList();
+
 	}
 }
