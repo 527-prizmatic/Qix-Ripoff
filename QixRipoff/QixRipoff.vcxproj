@@ -144,11 +144,13 @@
     <ClCompile Include="controls\Keyboard.cpp" />
     <ClCompile Include="controls\Mouse.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="Ennemy.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Preinit.cpp" />
     <ClCompile Include="resources\Textures.cpp" />
+    <ClCompile Include="Sparks.cpp" />
     <ClCompile Include="states\Game.cpp" />
     <ClCompile Include="states\Menu.cpp" />
     <ClCompile Include="toolbox\interpolation.cpp" />
@@ -162,10 +164,12 @@
     <ClInclude Include="controls\Keyboard.hpp" />
     <ClInclude Include="controls\Mouse.hpp" />
     <ClInclude Include="Core.hpp" />
+    <ClInclude Include="Ennemy.hpp" />
     <ClInclude Include="GameField.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Preinit.hpp" />
     <ClInclude Include="resources\Textures.hpp" />
+    <ClInclude Include="Sparks.hpp" />
     <ClInclude Include="states\Game.hpp" />
     <ClInclude Include="states\Menu.hpp" />
     <ClInclude Include="states\State.hpp" />
