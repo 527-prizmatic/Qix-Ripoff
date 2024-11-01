@@ -8,7 +8,7 @@ namespace states {
 
 	void Game::init() {
 		this->field = GameField(sf::Vector2u(128U, 128U));
-		this->field.setPixel(sf::Vector2u(2, 2), FieldPixelState::CLAIMED_BLUE);
+		this->field.setPixel(sf::Vector2u(2, 2), FieldPixelState::CLAIMED_RED);
 	}
 
 	void Game::update() {

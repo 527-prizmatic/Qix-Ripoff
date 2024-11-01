@@ -31,6 +31,7 @@ public:
 	GameField();
 	GameField(sf::Vector2u _size);
 
+	void createOutline();
 	void generateTexture();
 	void render(Window& _window);
 	FieldPixelState getPixel(sf::Vector2u _pos);

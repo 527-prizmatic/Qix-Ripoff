@@ -8,17 +8,30 @@ const sf::Color clrStixRed = sf::Color(146, 36, 16, 128);
 const sf::Color clrEdge = sf::Color::White;
 
 GameField::GameField() {
-	this->img.create(128U, 128U, sf::Color::Blue);
+	this->img.create(128U, 128U, sf::Color::Transparent);
 	this->tex.create(128U, 128U);
 	this->size = sf::Vector2u(128U, 128U);
+	this->createOutline();
 	this->generateTexture();
 }
 
 GameField::GameField(sf::Vector2u _size) {
-	this->img.create(_size.x, _size.y, sf::Color::Blue);
+	this->img.create(_size.x, _size.y, sf::Color::Transparent);
 	this->tex.create(_size.x, _size.y);
 	this->size = _size;
+	this->createOutline();
 	this->generateTexture();
+}
+
+void GameField::createOutline() {
+	for (unsigned int i = 0; i < this->size.x; i++) {
+		this->setPixel(sf::Vector2u(i, 0), EDGE);
+		this->setPixel(sf::Vector2u(i, this->size.y - 1), EDGE);
+	}
+	for (unsigned int i = 0; i < this->size.y; i++) {
+		this->setPixel(sf::Vector2u(0, i), EDGE);
+		this->setPixel(sf::Vector2u(this->size.x - 1, i), EDGE);
+	}
 }
 
 void GameField::generateTexture() {
