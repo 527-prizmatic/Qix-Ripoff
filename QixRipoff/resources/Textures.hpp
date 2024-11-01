@@ -14,7 +14,7 @@ public:
 	Texture(sf::Texture& _tex, std::string _id);
 
 	static void init();
-	static void preload(std::string _path, std::string& _id);
+	static void preload(std::string _path, std::string _id);
 	static bool unload(std::string& _id);
 	static bool clear();
 

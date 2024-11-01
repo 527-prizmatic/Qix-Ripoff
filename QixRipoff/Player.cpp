@@ -1,6 +1,7 @@
 #include "Player.hpp"
+#include "resources/Textures.hpp"
 
-sf::RectangleShape rect;
+sf::Sprite Player::renderSpr;
 
 Player::Player()
 {
@@ -76,10 +77,7 @@ void Player::update()
 
 void Player::draw()
 {
-	renderSpr.setTexture(Texture::getTexture());
-
-	rect.setSize(sf::Vector2f(10.f, 10.f));
-	rect.setFillColor(sf::Color::Green);
-	rect.setPosition(sf::Vector2f(this->pos + this->field->getRenderOffset()));
-	this->core->getWindow().draw(rect);
+	renderSpr.setTexture(Texture::getTexture("marker"));
+	renderSpr.setPosition(sf::Vector2f(this->pos + this->field->getRenderOffset()) - sf::Vector2f(3.f, 3.f));
+	this->core->getWindow().draw(renderSpr);
 }
