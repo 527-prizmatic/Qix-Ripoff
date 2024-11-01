@@ -1,4 +1,5 @@
 #include "GameField.hpp"
+#include "resources/Textures.hpp"
 
 const sf::Color clrUnclaimed = sf::Color::Transparent;
 const sf::Color clrBlue = sf::Color(0, 125, 123, 255);
@@ -36,6 +37,7 @@ void GameField::createOutline() {
 
 void GameField::generateTexture() {
 	this->tex.loadFromImage(this->img, sf::IntRect(0, 0, this->size.x, this->size.y));
+//	this->tex = Texture::getTexture("pavouka");
 }
 
 void GameField::render(Window& _window) {

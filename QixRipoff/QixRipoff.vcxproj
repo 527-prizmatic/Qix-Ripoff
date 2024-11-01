@@ -147,6 +147,7 @@
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Preinit.cpp" />
+    <ClCompile Include="resources\Textures.cpp" />
     <ClCompile Include="states\Game.cpp" />
     <ClCompile Include="states\Menu.cpp" />
     <ClCompile Include="toolbox\interpolation.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Core.hpp" />
     <ClInclude Include="GameField.hpp" />
     <ClInclude Include="Preinit.hpp" />
+    <ClInclude Include="resources\Textures.hpp" />
     <ClInclude Include="states\Game.hpp" />
     <ClInclude Include="states\Menu.hpp" />
     <ClInclude Include="states\State.hpp" />
