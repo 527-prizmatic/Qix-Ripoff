@@ -9,6 +9,7 @@ namespace states {
 	void Game::init() {
 		this->field = GameField(sf::Vector2u(128U, 128U));
 		this->field.setPixel(sf::Vector2u(2, 2), FieldPixelState::CLAIMED_RED);
+		this->player = Player(this->core, &this->field, sf::Vector2u(0, 0), 3);
 	}
 
 	void Game::update() {
@@ -17,11 +18,14 @@ namespace states {
 			this->field.generateTexture();
 		}
 
+		this->player.update();
+
 		if (this->core->getKeyboard().pressed("OpenMenu") || this->core->getMouse().clicked(sf::Mouse::Left)) this->core->requestStateChange(GameState::MENU);
 	}
 
 	void Game::render() {
 		this->field.render(this->core->getWindow());
+		this->player.draw();
 	}
 
 	void Game::unload() {
