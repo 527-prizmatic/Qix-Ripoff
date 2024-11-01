@@ -10,6 +10,8 @@ private:
 	sf::Vector2u pos;
 	float timerMove;
 	int life;
+
+	static sf::Sprite renderSpr;
 public:
 	Player();
 	Player(Core* _core, GameField* _field, sf::Vector2u _pos, int _life);

@@ -41,7 +41,8 @@ void GameField::generateTexture() {
 void GameField::render(Window& _window) {
 	this->spr.setTexture(this->tex);
 	this->spr.setPosition(sf::Vector2f(128.f, 112.f));
-	this->spr.setOrigin(sf::Vector2f(this->size.x * .5f, this->size.y * .5f));
+	this->spr.setOrigin(sf::Vector2f(this->size) * .5f);
+	this->renderOffset = sf::Vector2u(sf::Vector2f(128.f, 112.f) - sf::Vector2f(this->size) * .5f);
 	_window.draw(this->spr);
 }
 
@@ -67,4 +68,17 @@ void GameField::setPixel(sf::Vector2u _pos, FieldPixelState _state) {
 	if (_state == CLAIMED_RED)	clr = clrRed;
 	if (_state == EDGE)			clr = clrEdge;
 	this->img.setPixel(_pos.x, _pos.y, clr);
+}
+
+bool GameField::isValidMovement(sf::Vector2u _pos) {
+	FieldPixelState top		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(0, -1)));
+	FieldPixelState tl		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(-1, -1)));
+	FieldPixelState left	= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(-1, 0)));
+	FieldPixelState bl		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(-1, 1)));
+	FieldPixelState bottom	= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(0, 1)));
+	FieldPixelState br		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(1, 1)));
+	FieldPixelState right	= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(1, 0)));
+	FieldPixelState tr		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(1, -1)));
+
+	return top == UNCLAIMED || bottom == UNCLAIMED || left == UNCLAIMED || right == UNCLAIMED || tl == UNCLAIMED || bl == UNCLAIMED || br == UNCLAIMED || tr == UNCLAIMED;
 }
