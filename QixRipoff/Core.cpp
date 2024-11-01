@@ -1,11 +1,10 @@
 #include "Core.hpp"
-#include "BouncingBox.hpp"
 #include "Preinit.hpp"
 
 const float targetAspectRatio = 256.f / 224.f;
 
 Core::Core() {
-	this->window = Window(800U, 600U, "pavouk", false);
+	this->window = Window(1024U, 896U, "pavouk", false);
 	this->mouse.setWindow(&this->window);
 	this->kb.setWindow(&this->window);
 	this->state = GAME;
