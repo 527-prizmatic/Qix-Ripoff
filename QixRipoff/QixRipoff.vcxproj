@@ -141,10 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BouncingBox.cpp" />
     <ClCompile Include="controls\Keyboard.cpp" />
     <ClCompile Include="controls\Mouse.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="GameField.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Preinit.cpp" />
     <ClCompile Include="states\Game.cpp" />
@@ -157,10 +157,10 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BouncingBox.hpp" />
     <ClInclude Include="controls\Keyboard.hpp" />
     <ClInclude Include="controls\Mouse.hpp" />
     <ClInclude Include="Core.hpp" />
+    <ClInclude Include="GameField.hpp" />
     <ClInclude Include="Preinit.hpp" />
     <ClInclude Include="states\Game.hpp" />
     <ClInclude Include="states\Menu.hpp" />

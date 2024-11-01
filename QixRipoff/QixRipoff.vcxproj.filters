@@ -43,12 +43,15 @@
     <Filter Include="Header Files\Engine\Core Systems">
       <UniqueIdentifier>{56218a91-127a-48d9-9901-70caa41f1ed4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game Objects">
+      <UniqueIdentifier>{59c6d5d9-4924-4ced-9db5-e89bda51f8d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Objects">
+      <UniqueIdentifier>{6b1102fd-cd0e-472d-b949-3bb4e0d0060c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BouncingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="controls\Mouse.cpp">
@@ -87,11 +90,11 @@
     <ClCompile Include="View.cpp">
       <Filter>Source Files\Engine\Core Systems</Filter>
     </ClCompile>
+    <ClCompile Include="GameField.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BouncingBox.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="controls\Mouse.hpp">
       <Filter>Header Files\Engine\Controls</Filter>
     </ClInclude>
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="View.hpp">
       <Filter>Header Files\Engine\Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameField.hpp">
+      <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
