@@ -6,7 +6,12 @@ sf::Texture texture;
 sf::Font font;
 sf::Text text;
 
+sf::RectangleShape rectangle;
+
+bool toggleOptions;
+
 int choix;
+int choixOption;
 
 namespace states {
 	Menu::Menu(Core* _core) {
@@ -21,30 +26,65 @@ namespace states {
 		treatPinkPixelTexture(texture);
 		sprite.setTexture(texture);
 
+
+		toggleOptions = false;
+
 		choix = 0;
+		choixOption = 0;
 	}
 
 	void Menu::update() {
-		if (this->core->getKeyboard().pressed("ChoiseMenuUp")) 
+		if (!toggleOptions)
 		{
-			choix--;
+			if (this->core->getKeyboard().pressed("ChoiseMenuUp"))
+			{
+				choix--;
+			}
+			if (this->core->getKeyboard().pressed("ChoiseMenuDown"))
+			{
+				choix++;
+			}
+			if (choix > 2) choix = 0;
+			if (choix < 0) choix = 2;
+			if (this->core->getKeyboard().pressed("SelectMenu"))
+			{
+				switch (choix) {
+				case 0:
+					this->core->requestStateChange(GameState::GAME);
+					break;
+				case 1:
+					toggleOption();
+					break;
+				case 2:
+					break;
+				}
+			}
 		}
-		if (this->core->getKeyboard().pressed("ChoiseMenuDown"))
+		else
 		{
-			choix++;
-		}
-		if (choix > 2) choix = 0;
-		if (choix < 0) choix = 2;
-		if (this->core->getKeyboard().pressed("SelectMenu"))
-		{
-			switch (choix) {
-			case 0:
-				this->core->requestStateChange(GameState::GAME);
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
+			if (this->core->getKeyboard().pressed("ChoiseMenuUp"))
+			{
+				choixOption--;
+			}
+			if (this->core->getKeyboard().pressed("ChoiseMenuDown"))
+			{
+				choixOption++;
+			}
+			if (choixOption > 3) choixOption = 0;
+			if (choixOption < 0) choixOption = 3;
+			if (this->core->getKeyboard().pressed("SelectMenu"))
+			{
+				switch (choixOption) {
+				case 0:
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					toggleOption();
+					break;
+				}
 			}
 		}
 	}
@@ -71,6 +111,13 @@ namespace states {
 		text.setFillColor(choix == 2 ? sf::Color::Red : sf::Color::White);
 		text.setPosition(100, 160);
 		this->core->getWindow().draw(text);
+
+		if (toggleOptions) {
+			rectangle.setSize(sf::Vector2f(100, 100));
+			rectangle.setFillColor(sf::Color::Red);
+			rectangle.setPosition(100, 100);
+			this->core->getWindow().draw(rectangle);
+		}
 	}
 
 	void Menu::unload() {
@@ -89,5 +136,9 @@ namespace states {
 			}
 		}
 		texture.update(image);
+	}
+	void Menu::toggleOption()
+	{
+		toggleOptions = !toggleOptions;
 	}
 }

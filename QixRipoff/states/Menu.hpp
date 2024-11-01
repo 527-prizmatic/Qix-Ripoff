@@ -14,5 +14,7 @@ namespace states {
 		void unload();
 
 		void treatPinkPixelTexture(sf::Texture& texture);
+
+		void toggleOption();
 	};
 }
