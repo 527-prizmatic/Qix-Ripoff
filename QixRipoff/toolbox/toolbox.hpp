@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <list>
 #include <optional>
 
 #include "SFML/System.hpp"
