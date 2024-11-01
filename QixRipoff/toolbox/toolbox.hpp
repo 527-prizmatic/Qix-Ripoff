@@ -12,6 +12,7 @@
 #include "custom_math.hpp"
 #include "interpolation.hpp"
 #include "../controls/Controls.hpp"
+#include "../Preinit.hpp"
 
 namespace ctrl {
 	typedef enum ButtonState {

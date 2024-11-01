@@ -9,7 +9,7 @@ View::View() {
 }
 
 View::View(Window& _w) {
-	this->size = sf::Vector2f(_w.getSize().x, _w.getSize().y);
+	this->size = sf::Vector2f((float)_w.getSize().x, (float)_w.getSize().y);
 	this->center = this->size / 2.f;
 	this->view.setSize(this->size);
 	this->view.setCenter(this->center);
