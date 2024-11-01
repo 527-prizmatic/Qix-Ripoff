@@ -22,6 +22,7 @@ typedef enum {
 class GameField {
 private:
 	sf::Vector2u size;
+	sf::Vector2u renderOffset;
 	sf::Image img;
 	sf::Texture tex;
 	sf::Sprite spr;
@@ -36,4 +37,7 @@ public:
 	void render(Window& _window);
 	FieldPixelState getPixel(sf::Vector2u _pos);
 	void setPixel(sf::Vector2u _pos, FieldPixelState _state);
+	inline const sf::Vector2u getSize() { return this->size; }
+	inline const sf::Vector2u getRenderOffset() { return this->renderOffset; }
+	bool isValidMovement(sf::Vector2u _pos);
 };
