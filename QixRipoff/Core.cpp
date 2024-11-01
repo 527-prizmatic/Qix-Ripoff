@@ -1,5 +1,6 @@
 #include "Core.hpp"
 #include "Preinit.hpp"
+#include "resources/Textures.hpp"
 
 const float targetAspectRatio = 256.f / 224.f;
 
@@ -45,6 +46,7 @@ void Core::render() {
 
 void Core::unload() {
 	this->stateReg[this->state]->unload();
+	Texture::clear();
 }
 
 Core& Core::registerState(GameState _id, states::State* _state) {
