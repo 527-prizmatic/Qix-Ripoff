@@ -41,7 +41,7 @@ void Window::beginRendering() {
 
 void Window::endRendering() {
 	Window::renderSpr.setTexture(this->rTex->getTexture());
-	Window::renderSpr.setPosition(sf::Vector2f(0.f, this->window->getSize().y));
+	Window::renderSpr.setPosition(sf::Vector2f(0.f, (float)this->window->getSize().y));
 	Window::renderSpr.setScale(1.f, -1.f);
 	this->window->draw(Window::renderSpr);
 	this->window->display();

@@ -31,7 +31,8 @@ void Core::update() {
 	this->mouse.update();
 	this->kb.update();
 
-	this->window.getView()->setSize(this->window.forceAspectRatio(sf::Vector2f(256.f, 224.f), targetAspectRatio));
+	sf::Vector2f viewSize = this->window.forceAspectRatio(sf::Vector2f(256.f, 224.f), targetAspectRatio);
+	this->window.getView()->setSize(viewSize);
 	this->window.getView()->setCenter(sf::Vector2f(128.f, 112.f));
 	this->window.update();
 	

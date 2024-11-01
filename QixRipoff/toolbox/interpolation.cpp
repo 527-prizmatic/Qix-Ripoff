@@ -4,10 +4,10 @@ namespace itp {
 	sf::Color color(sf::Color _a, sf::Color _b, float _t, float _method(float _x)) {
 		float it = _method(_t);
 		return sf::Color(
-			ITP(_a.r, _b.r, it),
-			ITP(_a.g, _b.g, it),
-			ITP(_a.b, _b.b, it),
-			ITP(_a.a, _b.a, it)
+			(sf::Uint8)ITP(_a.r, _b.r, it),
+			(sf::Uint8)ITP(_a.g, _b.g, it),
+			(sf::Uint8)ITP(_a.b, _b.b, it),
+			(sf::Uint8)ITP(_a.a, _b.a, it)
 		);
 	}
 
