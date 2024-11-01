@@ -9,6 +9,9 @@ sf::Text text;
 sf::RectangleShape rectangle;
 
 bool toggleOptions;
+bool toggleHighscores;
+
+//timer = tutil::getDelta();
 
 int choix;
 int choixOption;
@@ -28,25 +31,26 @@ namespace states {
 
 
 		toggleOptions = false;
+		toggleHighscores = false;
 
 		choix = 0;
 		choixOption = 0;
 	}
 
 	void Menu::update() {
-		if (!toggleOptions)
+		if (!toggleOptions && !toggleHighscores)
 		{
-			if (this->core->getKeyboard().pressed("ChoiseMenuUp"))
+			if (this->core->getKeyboard().pressed("Up"))
 			{
 				choix--;
 			}
-			if (this->core->getKeyboard().pressed("ChoiseMenuDown"))
+			if (this->core->getKeyboard().pressed("Down"))
 			{
 				choix++;
 			}
 			if (choix > 2) choix = 0;
 			if (choix < 0) choix = 2;
-			if (this->core->getKeyboard().pressed("SelectMenu"))
+			if (this->core->getKeyboard().pressed("OK"))
 			{
 				switch (choix) {
 				case 0:
@@ -56,26 +60,34 @@ namespace states {
 					toggleOption();
 					break;
 				case 2:
+					toggleHighscore();
+					break;
+				default:
 					break;
 				}
 			}
+			if (this->core->getKeyboard().pressed("Kaboom"))
+			{
+				exit(EXIT_SUCCESS);
+			}
 		}
-		else
+		else if (toggleOptions)
 		{
-			if (this->core->getKeyboard().pressed("ChoiseMenuUp"))
+			if (this->core->getKeyboard().pressed("Up"))
 			{
 				choixOption--;
 			}
-			if (this->core->getKeyboard().pressed("ChoiseMenuDown"))
+			if (this->core->getKeyboard().pressed("Down"))
 			{
 				choixOption++;
 			}
 			if (choixOption > 3) choixOption = 0;
 			if (choixOption < 0) choixOption = 3;
-			if (this->core->getKeyboard().pressed("SelectMenu"))
+			if (this->core->getKeyboard().pressed("OK"))
 			{
 				switch (choixOption) {
 				case 0:
+					this->core->getWindow().toggleFullscreen();
 					break;
 				case 1:
 					break;
@@ -86,6 +98,14 @@ namespace states {
 					break;
 				}
 			}
+
+		}
+		else if (toggleHighscores)
+		{
+			if (this->core->getKeyboard().pressed("OK"))
+			{
+				toggleHighscore();
+			}
 		}
 	}
 
@@ -95,19 +115,19 @@ namespace states {
 		this->core->getWindow().draw(sprite);
 
 		text.setString("Play");
-		text.setCharacterSize(15);
+		text.setCharacterSize(10);
 		text.setFillColor(choix == 0 ? sf::Color::Red : sf::Color::White);
 		text.setPosition(100, 100);
 		this->core->getWindow().draw(text);
 
 		text.setString("Options");
-		text.setCharacterSize(5);
+		text.setCharacterSize(10);
 		text.setFillColor(choix == 1 ? sf::Color::Red : sf::Color::White);
 		text.setPosition(100, 130);
 		this->core->getWindow().draw(text);
 
 		text.setString("Hight socre");
-		text.setCharacterSize(5);
+		text.setCharacterSize(10);
 		text.setFillColor(choix == 2 ? sf::Color::Red : sf::Color::White);
 		text.setPosition(100, 160);
 		this->core->getWindow().draw(text);
@@ -116,6 +136,12 @@ namespace states {
 			rectangle.setSize(sf::Vector2f(100, 100));
 			rectangle.setFillColor(sf::Color::Red);
 			rectangle.setPosition(100, 100);
+			this->core->getWindow().draw(rectangle);
+		}
+		else if (toggleHighscores) {
+			rectangle.setSize(sf::Vector2f(100, 100));
+			rectangle.setFillColor(sf::Color::Green);
+			rectangle.setPosition(100, 130);
 			this->core->getWindow().draw(rectangle);
 		}
 	}
@@ -140,5 +166,9 @@ namespace states {
 	void Menu::toggleOption()
 	{
 		toggleOptions = !toggleOptions;
+	}
+	void Menu::toggleHighscore()
+	{
+		toggleHighscores = !toggleHighscores;
 	}
 }

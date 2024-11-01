@@ -16,5 +16,6 @@ namespace states {
 		void treatPinkPixelTexture(sf::Texture& texture);
 
 		void toggleOption();
+		void toggleHighscore();
 	};
 }

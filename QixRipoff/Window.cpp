@@ -64,9 +64,7 @@ void Window::update() {
 
 		if (this->evt.type == sf::Event::KeyPressed) {
 			if (this->evt.key.code == sf::Keyboard::Key::F11) {
-				this->window->close();
-				this->fullscreen = !this->fullscreen;
-				this->setup();
+				this->toggleFullscreen();
 			}
 		}
 	}
@@ -85,4 +83,11 @@ sf::Vector2f Window::forceAspectRatio(sf::Vector2f _input, float _ratio) {
 		_input.y *= ratioOff;
 	}
 	return _input;
+}
+
+void Window::toggleFullscreen()
+{
+	this->window->close();
+	this->fullscreen = !this->fullscreen;
+	this->setup();
 }
