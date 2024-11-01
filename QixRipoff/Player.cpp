@@ -1,7 +1,7 @@
 #include "Player.hpp"
+#include "resources/Textures.hpp"
 
-
-sf::RectangleShape rect;
+sf::Sprite Player::renderSpr;
 
 Player::Player()
 {
@@ -26,88 +26,50 @@ void Player::update()
 	timerMove += tutil::getDelta();
 	if (timerMove > 0.025f)
 	{
+		sf::Vector2u posNext = this->pos;
+		sf::Vector2u posNext2 = this->pos;
+
 		if (this->core->getKeyboard().held("Up"))
 		{
-			if (this->field->getPixel(this->pos + sf::Vector2u(0, -1)) == EDGE || this->core->getKeyboard().held("OK") || this->core->getKeyboard().held("Kaboom"))
-			{
-				if (this->core->getKeyboard().held("OK"))
-				{
-					pos.y -= 2;
-					timerMove = 0.f;
-				}
-				else if (this->core->getKeyboard().held("Kaboom"))
-				{
-					pos.y -= 1;
-					timerMove = 0.f;
-				}
-				else
-				{
-					pos.y -= 1;
-					timerMove = 0.f;
-				}
-			}
+			timerMove = 0.f;
+			posNext += sf::Vector2u(0, -1);
+			posNext2 += sf::Vector2u(0, -2);
 		}
 		else if (this->core->getKeyboard().held("Down"))
 		{
-			if (this->field->getPixel(this->pos + sf::Vector2u(0, 1)) == EDGE || this->core->getKeyboard().held("OK") || this->core->getKeyboard().held("Kaboom"))
-			{
-				if (this->core->getKeyboard().held("OK"))
-				{
-					pos.y += 2;
-					timerMove = 0.f;
-				}
-				else if (this->core->getKeyboard().held("Kaboom"))
-				{
-					pos.y += 1;
-					timerMove = 0.f;
-				}
-				else
-				{
-					pos.y += 1;
-					timerMove = 0.f;
-				}
-			}
+			timerMove = 0.f;
+			posNext += sf::Vector2u(0, 1);
+			posNext2 += sf::Vector2u(0, 2);
 		}
 		else if (this->core->getKeyboard().held("Left"))
 		{
-			if (this->field->getPixel(this->pos + sf::Vector2u(-1, 0)) == EDGE || this->core->getKeyboard().held("OK") || this->core->getKeyboard().held("Kaboom"))
-			{
-				if (this->core->getKeyboard().held("OK"))
-				{
-					pos.x -= 2;
-					timerMove = 0.f;
-				}
-				else if (this->core->getKeyboard().held("Kaboom"))
-				{
-					pos.x -= 1;
-					timerMove = 0.f;
-				}
-				else
-				{
-					pos.x -= 1;
-					timerMove = 0.f;
-				}
-			}
+			timerMove = 0.f;
+			posNext += sf::Vector2u(-1, 0);
+			posNext2 += sf::Vector2u(-2, 0);
 		}
 		else if (this->core->getKeyboard().held("Right"))
 		{
-			if (this->field->getPixel(this->pos + sf::Vector2u(1, 0)) == EDGE || this->core->getKeyboard().held("OK") || this->core->getKeyboard().held("Kaboom"))
-			{
-				if (this->core->getKeyboard().held("OK"))
-				{
-					pos.x += 2;
-					timerMove = 0.f;
-				}
-				else if (this->core->getKeyboard().held("Kaboom"))
-				{
-					pos.x += 1;
-					timerMove = 0.f;
-				}
-				else
-				{
-					pos.x += 1;
-					timerMove = 0.f;
-				}
+			timerMove = 0.f;
+			posNext += sf::Vector2u(1, 0);
+			posNext2 += sf::Vector2u(2, 0);
+		}
+
+		if (this->core->getKeyboard().held("OK")) {
+			if ((this->field->getPixel(posNext2) == EDGE || this->field->getPixel(posNext2) == UNCLAIMED) && this->field->isValidMovement(posNext2)) {
+				this->pos = posNext2;
+			}
+			else if ((this->field->getPixel(posNext) == EDGE || this->field->getPixel(posNext) == UNCLAIMED) && this->field->isValidMovement(posNext)) {
+				this->pos = posNext;
+			}
+		}
+		else if (this->core->getKeyboard().held("Kaboom")) {
+			if ((this->field->getPixel(posNext) == EDGE || this->field->getPixel(posNext) == UNCLAIMED) && this->field->isValidMovement(posNext)) {
+				this->pos = posNext;
+			}
+		}
+		else {
+			if (this->field->getPixel(posNext) == EDGE && this->field->isValidMovement(posNext)) {
+				this->pos = posNext;
 			}
 		}
 	}
@@ -115,8 +77,7 @@ void Player::update()
 
 void Player::draw()
 {
-	rect.setSize(sf::Vector2f(10.f, 10.f));
-	rect.setFillColor(sf::Color::Green);
-	rect.setPosition(sf::Vector2f(pos));
-	this->core->getWindow().draw(rect);
+	renderSpr.setTexture(Texture::getTexture("marker"));
+	renderSpr.setPosition(sf::Vector2f(this->pos + this->field->getRenderOffset()) - sf::Vector2f(3.f, 3.f));
+	this->core->getWindow().draw(renderSpr);
 }

@@ -28,7 +28,7 @@ const sf::Texture& Texture::getTexture(std::string _id) {
 	return Texture::placeholder;
 }
 
-void Texture::preload(std::string _path, std::string& _id) {
+void Texture::preload(std::string _path, std::string _id) {
 	Texture* tex = new Texture(_path, _id);
 	Texture::texList.push_back(tex);
 }
@@ -46,6 +46,7 @@ bool Texture::unload(std::string& _id) {
 
 bool Texture::clear() {
 	bool deleted = false;
+	if (Texture::texList.size() != 0) return false;
 	for (Texture* t : Texture::texList) {
 		texList.remove(t);
 		delete t;

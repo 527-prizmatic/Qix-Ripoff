@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "../Core.hpp"
+#include "../resources/Textures.hpp"
 
 namespace states {
 	Game::Game(Core* _core) {
@@ -10,6 +11,8 @@ namespace states {
 		this->field = GameField(sf::Vector2u(128U, 128U));
 		this->field.setPixel(sf::Vector2u(2, 2), FieldPixelState::CLAIMED_RED);
 		this->player = Player(this->core, &this->field, sf::Vector2u(0, 0), 3);
+
+		Texture::preload("../assets/textures/marker.png", "marker");
 	}
 
 	void Game::update() {
