@@ -17,8 +17,7 @@ namespace states {
 			this->field.generateTexture();
 		}
 
-//		if (this->core->getKeyboard().pressed("OpenMenu") || this->core->getMouse().clicked(sf::Mouse::Left)) this->core->requestStateChange(GameState::MENU);
-//		if (this->core->getMouse().clicked(sf::Mouse::Right)) this->core->getKeyboard().setKey("OpenMenu", sf::Keyboard::Key::R);
+		if (this->core->getKeyboard().pressed("OpenMenu") || this->core->getMouse().clicked(sf::Mouse::Left)) this->core->requestStateChange(GameState::MENU);
 	}
 
 	void Game::render() {

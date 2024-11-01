@@ -37,4 +37,6 @@ public:
 	inline void setView(View* _v) { this->currentView = _v; }
 	inline View* getView() { return this->currentView.value(); }
 	inline void resetView() { this->currentView.reset(); }
+
+	void toggleFullscreen();
 };
