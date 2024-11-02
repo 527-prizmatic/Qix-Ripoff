@@ -110,7 +110,6 @@ void Player::draw()
 
 void Player::drawStix() {
 	this->field->setPixel(this->pos, this->isDrawingRed ? STIX_RED : STIX_BLUE);
-	this->field->setPixel(this->posPrev, this->isDrawingRed ? STIX_RED : STIX_BLUE);
 	this->field->generateTexture();
 }
 
