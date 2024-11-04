@@ -1,6 +1,7 @@
-#include "Game.hpp"
+	#include "Game.hpp"
 #include "../Core.hpp"
 #include "../resources/Textures.hpp"
+
 
 namespace states {
 	Game::Game(Core* _core) {

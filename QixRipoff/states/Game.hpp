@@ -10,6 +10,7 @@ namespace states {
 		Core* core;
 		GameField field;
 		Player player;
+
 	public:
 		Game(Core* _core);
 		void init();
