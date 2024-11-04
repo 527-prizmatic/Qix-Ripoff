@@ -21,7 +21,7 @@ namespace states {
 			this->field.generateTexture();
 		}
 
-		this->field.update();
+//		this->field.update();
 		this->player.update();
 
 		if (this->core->getKeyboard().pressed("OpenMenu") || this->core->getMouse().clicked(sf::Mouse::Left)) this->core->requestStateChange(GameState::MENU);

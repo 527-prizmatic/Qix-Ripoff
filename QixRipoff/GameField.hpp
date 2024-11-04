@@ -29,7 +29,7 @@ private:
 	sf::Texture tex;
 	sf::Sprite spr;
 	/// Add some enemies in there
-	std::list<class Qix*> qixList;
+//	std::list<class Qix*> qixList;
 
 public:
 	GameField();
