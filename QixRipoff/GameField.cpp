@@ -26,17 +26,22 @@ GameField::GameField(Core* _core, sf::Vector2u _size) {
 	this->createOutline();
 	this->generateTexture();
 	this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(0, 0), LEFT));
-	this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(0, 0), RIGHT));
+	this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(50, 0), RIGHT));
 	this->qixList.push_back(new Qix(_core, this));
 }
 
-void GameField::update(Player* _plr) {
+void GameField::update(Player* _plr) 
+{
 	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
 		(*q)->update(this, _plr);
 	}
+	for (std::list<Sparks*>::iterator s = this->sparksList.begin(); s != this->sparksList.end(); ++s) 
+	{
+		(*s)->update(this, _plr);
+	}
 }
-
 void GameField::createOutline() {
+
 	for (unsigned int i = 0; i < this->size.x; i++) {
 		this->setPixel(sf::Vector2u(i, 0), EDGE);
 		this->setPixel(sf::Vector2u(i, this->size.y - 1), EDGE);
