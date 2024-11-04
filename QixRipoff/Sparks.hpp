@@ -1,6 +1,5 @@
 #pragma once
 #include "toolbox/toolbox.hpp"
-#include "GameField.hpp"
 #include "Ennemy.hpp"
 #include "Core.hpp"
 
@@ -23,8 +22,5 @@ public:
 	Sparks(Core* _core, GameField* _field, sf::Vector2u _pos, Direction _dir);
 	void update();
 	void draw();
-
-	sf::Vector2u getPos() { return this->pos; }
-	void setPos(sf::Vector2u _pos) { this->pos = _pos; }
 };
 

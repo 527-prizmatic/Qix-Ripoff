@@ -1,6 +1,8 @@
 #pragma once
 #include "toolbox/toolbox.hpp"
 #include "Window.hpp"
+#include "Sparks.hpp"
+#include "Core.hpp"
 
 typedef enum {
 	UNCLAIMED,
@@ -26,8 +28,7 @@ private:
 	sf::Image img;
 	sf::Texture tex;
 	sf::Sprite spr;
-	/// Add some enemies in there
-
+	Sparks sparks;
 public:
 	enum SearchDir {
 		HORIZONTAL,
@@ -35,7 +36,7 @@ public:
 	};
 
 	GameField();
-	GameField(sf::Vector2u _size);
+	GameField(sf::Vector2u _size, Core* _core);
 
 	void createOutline();
 	void generateTexture();

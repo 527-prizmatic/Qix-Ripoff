@@ -16,12 +16,14 @@ GameField::GameField() {
 	this->generateTexture();
 }
 
-GameField::GameField(sf::Vector2u _size) {
+GameField::GameField(sf::Vector2u _size, Core* _core) {
 	this->img.create(_size.x, _size.y, sf::Color::Transparent);
 	this->tex.create(_size.x, _size.y);
 	this->size = _size;
 	this->createOutline();
 	this->generateTexture();
+	this->sparks = Sparks(_core, this, sf::Vector2u(1,1), LEFT);
+	this->sparks = Sparks(_core, this, sf::Vector2u(2, 2), RIGHT);
 }
 
 void GameField::createOutline() {
@@ -46,6 +48,7 @@ void GameField::render(Window& _window) {
 	this->spr.setOrigin(sf::Vector2f(this->size) * .5f);
 	this->renderOffset = sf::Vector2u(sf::Vector2f(128.f, 112.f) - sf::Vector2f(this->size) * .5f);
 	_window.draw(this->spr);
+	this->sparks.draw();
 }
 
 FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
