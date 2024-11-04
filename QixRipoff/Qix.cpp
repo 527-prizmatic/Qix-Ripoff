@@ -77,6 +77,7 @@ void Qix::update(GameField* _field, Player* _plr) {
 	if (this->timerDirChange > 1.f || (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX)) {
 		this->timerDirChange = 0.f;
 		bool valid = true;
+		int attempts = 0;
 		do {
 			valid = true;
 			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 8 + 3) / 10.f, (rand() % (int)(pi * 200)) * .01f));
@@ -84,8 +85,12 @@ void Qix::update(GameField* _field, Player* _plr) {
 			tileFuture = _field->getPixel(posFuture);
 			if (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX) {
 				valid = false;
+				attempts++;
 			}
-		} while (!valid);
+		} while (!valid && attempts < 50);
+		if (attempts == 50) {
+			this->direction = sf::Vector2f();
+		}
 	}
 
 	if (this->timerAngleChange > .15f) {
@@ -95,7 +100,7 @@ void Qix::update(GameField* _field, Player* _plr) {
 
 	if (this->timerColorChange > .2f) {
 		this->timerColorChange -= .2f;
-		this->hue = std::fmod(this->hue + rand() % 45, 360.f);
+		this->hue = std::fmod(this->hue + rand() % 31 - 10, 360.f);
 		this->clr = hsl_to_rgb(sf::Color(this->hue * 255.f / 360.f, 255, 127));
 	}
 

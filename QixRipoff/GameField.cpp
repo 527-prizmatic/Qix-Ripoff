@@ -114,6 +114,7 @@ bool GameField::isValidMovement(sf::Vector2u _pos) {
 
 int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir) {
 	int crossings = 0;
+	bool isClaim = false;
 
 	_dest.x = _dest.x / 2 * 2 + 1;
 	_dest.y = _dest.y / 2 * 2 + 1;
@@ -122,12 +123,22 @@ int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum Se
 		while (_src.x != _dest.x) {
 			if (_src.x < _dest.x) _src.x++;
 			else _src.x--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 		while (_src.y != _dest.y) {
 			if (_src.y < _dest.y) _src.y++;
 			else _src.y--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 	}
 
@@ -135,12 +146,22 @@ int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum Se
 		while (_src.y != _dest.y) {
 			if (_src.y < _dest.y) _src.y++;
 			else _src.y--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 		while (_src.x != _dest.x) {
 			if (_src.x < _dest.x) _src.x++;
 			else _src.x--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 	}
 
