@@ -16,7 +16,7 @@ GameField::GameField() {
 	this->createOutline();
 	this->generateTexture();
 
-//	this->qixList.push_back(new Qix());
+	this->qixList.push_back(new Qix());
 }
 
 GameField::GameField(Core* _core, sf::Vector2u _size) {
@@ -26,13 +26,13 @@ GameField::GameField(Core* _core, sf::Vector2u _size) {
 	this->createOutline();
 	this->generateTexture();
 
-//	this->qixList.push_back(new Qix(_core, this));
+	this->qixList.push_back(new Qix(_core, this));
 }
 
-void GameField::update() {
-//	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
-//		(*q)->update(this);
-//	}
+void GameField::update(Player* _plr) {
+	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
+		(*q)->update(this, _plr);
+	}
 }
 
 void GameField::createOutline() {
@@ -48,7 +48,6 @@ void GameField::createOutline() {
 
 void GameField::generateTexture() {
 	this->tex.loadFromImage(this->img, sf::IntRect(0, 0, this->size.x, this->size.y));
-//	this->tex = Texture::getTexture("pavouka");
 }
 
 void GameField::render(Window& _window) {
@@ -58,9 +57,9 @@ void GameField::render(Window& _window) {
 	this->renderOffset = sf::Vector2u(sf::Vector2f(128.f, 112.f) - sf::Vector2f(this->size) * .5f);
 	_window.draw(this->spr);
 
-//	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
-//		(*q)->draw(this);
-//	}
+	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
+		(*q)->draw(this);
+	}
 }
 
 FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
@@ -172,5 +171,13 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 		if (!filled) break;
 		posToFill = std::list<sf::Vector2u>(posFilled);
 		posFilled.clear();
+	}
+}
+
+sf::Vector2u GameField::getQixPos(int _id) {
+	int i = 0;
+	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
+		if (i == _id) return (*q)->getPos();
+		i++;
 	}
 }

@@ -1,5 +1,6 @@
 #include "Qix.hpp"
 #include "GameField.hpp"
+#include "Player.hpp"
 
 sf::VertexArray Qix::renderVA;
 const int afterimageListSize = 10;
@@ -57,7 +58,7 @@ Qix::Qix(Core* _core, GameField* _field):Ennemy(_core, _field, sf::Vector2u(_fie
 	this->field = field;
 }
 
-void Qix::update(GameField* _field) {
+void Qix::update(GameField* _field, Player* _plr) {
 	this->lifetime += tutil::getDelta();
 	this->timerMove += tutil::getDelta();
 	this->timerDirChange += tutil::getDelta();
@@ -78,7 +79,7 @@ void Qix::update(GameField* _field) {
 		bool valid = true;
 		do {
 			valid = true;
-			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 5 + 2) / 10.f, (rand() % (int)(pi * 200)) * .01f));
+			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 5 + 2) / 7.5f, (rand() % (int)(pi * 200)) * .01f));
 			posFuture = sf::Vector2u(this->absPos + this->direction * 30.f);
 			tileFuture = _field->getPixel(posFuture);
 			if (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX) {
@@ -106,6 +107,13 @@ void Qix::update(GameField* _field) {
 		if (this->afterimagesPos.size() > afterimageListSize) this->afterimagesPos.pop_front();
 		this->afterimagesColor.push_back(this->clr);
 		if (this->afterimagesColor.size() > afterimageListSize) this->afterimagesColor.pop_front();
+	}
+
+	if ((_field->getPixel(this->pos) & TYPE_MASK) == STIX) {
+		_field->replaceAll(STIX_BLUE, UNCLAIMED);
+		_field->replaceAll(STIX_RED, UNCLAIMED);
+		_plr->returnToEdge();
+		_field->generateTexture();
 	}
 }
 

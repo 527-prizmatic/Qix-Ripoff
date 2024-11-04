@@ -14,7 +14,7 @@ protected:
 public:
 	Ennemy();
 	Ennemy(Core* _core, GameField* _field, sf::Vector2u _pos);
-	virtual void update(GameField* _field) = 0;
+	virtual void update(GameField* _field, class Player* _plr) = 0;
 	virtual void draw(GameField* _field) = 0;
 };
 

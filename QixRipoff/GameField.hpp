@@ -29,7 +29,7 @@ private:
 	sf::Texture tex;
 	sf::Sprite spr;
 	/// Add some enemies in there
-//	std::list<class Qix*> qixList;
+	std::list<class Qix*> qixList;
 
 public:
 	enum SearchDir {
@@ -40,7 +40,7 @@ public:
 	GameField();
 	GameField(Core* _core, sf::Vector2u _size);
 
-	void update();
+	void update(class Player* _plr);
 	void createOutline();
 	void generateTexture();
 	void render(Window& _window);
@@ -53,4 +53,6 @@ public:
 
 	int countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir);
 	void iterativeFill(sf::Vector2u _pos, FieldPixelState _clr);
+
+	sf::Vector2u getQixPos(int _id);
 };

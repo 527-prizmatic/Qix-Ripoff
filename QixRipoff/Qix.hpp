@@ -29,6 +29,8 @@ public:
 	Qix();
 	Qix(Core* _core, GameField* _field);
 
-	void update(GameField* _field);
+	void update(GameField* _field, class Player* _plr);
 	void draw(GameField* _field);
+
+	sf::Vector2u getPos() const { return this->pos; }
 };
