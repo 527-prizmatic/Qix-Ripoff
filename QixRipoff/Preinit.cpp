@@ -18,6 +18,7 @@ const std::string KeyKaboom = "Kaboom";
 
 
 void preinit(Core& _core) {
+	std::srand(std::time(NULL));
 	Texture::init();
 	_core.registerState(MENU, (states::State*)(new states::Menu(&_core)));
 	_core.registerState(GAME, (states::State*)(new states::Game(&_core)));

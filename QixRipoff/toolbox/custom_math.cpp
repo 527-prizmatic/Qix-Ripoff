@@ -66,4 +66,18 @@ namespace vect {
 		float mag = magnitude(_v);
 		return sf::Vector2f((float)(_v.x) / mag, (float)(_v.y) / mag);
 	}
+
+	sf::Vector2f recToPol(sf::Vector2f _v) {
+		sf::Vector2f ret;
+		ret.x = magnitude(_v);
+		ret.y = std::atan2(_v.y, _v.x);
+		return ret;
+	}
+
+	sf::Vector2f polToRec(sf::Vector2f _v) {
+		sf::Vector2f ret;
+		ret.x = _v.x * std::cos(_v.y);
+		ret.y = _v.x * std::sin(_v.y);
+		return ret;
+	}
 }

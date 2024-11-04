@@ -9,13 +9,14 @@ namespace states {
 	}
 
 	void Game::init() {
-		this->field = GameField(sf::Vector2u(128U, 128U), this->core);
+		this->field = GameField(this->core, sf::Vector2u(128U, 128U));
 		this->player = Player(this->core, &this->field, sf::Vector2u(0, 0), 3);
 
 		Texture::preload("../assets/textures/marker.png", "marker");
 	}
 
 	void Game::update() {
+		this->field.update(&(this->player));
 		this->player.update();
 
 		if (this->core->getKeyboard().pressed("OpenMenu")) this->core->requestStateChange(GameState::MENU);

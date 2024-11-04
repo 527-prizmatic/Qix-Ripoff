@@ -49,6 +49,12 @@
     <Filter Include="Header Files\Game Objects">
       <UniqueIdentifier>{6b1102fd-cd0e-472d-b949-3bb4e0d0060c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Resources">
+      <UniqueIdentifier>{d5f79584-093f-440c-85c6-8e4b0d91667a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Resources">
+      <UniqueIdentifier>{4d806833-e819-4e9b-90ca-71afc0bd6c1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +100,15 @@
       <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="resources\Textures.cpp">
+      <Filter>Source Files\Engine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Ennemy.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Qix.cpp">
       <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -145,6 +160,15 @@
     </ClInclude>
     <ClInclude Include="Player.hpp">
       <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Ennemy.hpp">
+      <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Qix.hpp">
+      <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\Textures.hpp">
+      <Filter>Header Files\Engine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

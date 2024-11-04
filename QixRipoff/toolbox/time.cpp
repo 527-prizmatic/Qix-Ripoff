@@ -6,7 +6,7 @@ namespace tutil {
 
 	void restart() {
 		delta = clock.restart().asSeconds();
-		if (delta > .1f) delta = 0.f;
+	//	if (delta > .1f) delta = 0.f;
 	}
 
 	float getDelta() {

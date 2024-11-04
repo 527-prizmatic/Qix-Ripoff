@@ -1,7 +1,6 @@
 #pragma once
 #include "Core.hpp"
 #include"toolbox/toolbox.hpp"
-
 class GameField;
 
 class Ennemy
@@ -14,7 +13,7 @@ protected:
 public:
 	Ennemy();
 	Ennemy(Core* _core, GameField* _field, sf::Vector2u _pos);
-	virtual void update() = 0;
-	virtual void draw() = 0;
+	virtual void update(GameField* _field, class Player* _plr) = 0;
+	virtual void draw(GameField* _field) = 0;
 };
 

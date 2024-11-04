@@ -1,5 +1,6 @@
 #include "GameField.hpp"
 #include "resources/Textures.hpp"
+#include "Qix.hpp"
 
 const sf::Color clrUnclaimed = sf::Color::Transparent;
 const sf::Color clrBlue = sf::Color(0, 125, 123, 255);
@@ -14,9 +15,11 @@ GameField::GameField() {
 	this->size = sf::Vector2u(127U, 127U);
 	this->createOutline();
 	this->generateTexture();
+
+	this->qixList.push_back(new Qix());
 }
 
-GameField::GameField(sf::Vector2u _size, Core* _core) {
+GameField::GameField(Core* _core, sf::Vector2u _size) {
 	this->img.create(_size.x, _size.y, sf::Color::Transparent);
 	this->tex.create(_size.x, _size.y);
 	this->size = _size;
@@ -24,6 +27,13 @@ GameField::GameField(sf::Vector2u _size, Core* _core) {
 	this->generateTexture();
 	this->sparks = Sparks(_core, this, sf::Vector2u(1,1), LEFT);
 	this->sparks = Sparks(_core, this, sf::Vector2u(2, 2), RIGHT);
+	this->qixList.push_back(new Qix(_core, this));
+}
+
+void GameField::update(Player* _plr) {
+	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
+		(*q)->update(this, _plr);
+	}
 }
 
 void GameField::createOutline() {
@@ -39,7 +49,6 @@ void GameField::createOutline() {
 
 void GameField::generateTexture() {
 	this->tex.loadFromImage(this->img, sf::IntRect(0, 0, this->size.x, this->size.y));
-//	this->tex = Texture::getTexture("pavouka");
 }
 
 void GameField::render(Window& _window) {
@@ -49,6 +58,9 @@ void GameField::render(Window& _window) {
 	this->renderOffset = sf::Vector2u(sf::Vector2f(128.f, 112.f) - sf::Vector2f(this->size) * .5f);
 	_window.draw(this->spr);
 	this->sparks.draw();
+	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
+		(*q)->draw(this);
+	}
 }
 
 FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
@@ -160,5 +172,13 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 		if (!filled) break;
 		posToFill = std::list<sf::Vector2u>(posFilled);
 		posFilled.clear();
+	}
+}
+
+sf::Vector2u GameField::getQixPos(int _id) {
+	int i = 0;
+	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
+		if (i == _id) return (*q)->getPos();
+		i++;
 	}
 }

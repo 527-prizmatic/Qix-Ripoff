@@ -91,6 +91,9 @@ void Player::update()
 		this->isDrawingRed = true;
 	}
 	else if (this->field->getPixel(this->pos) == UNCLAIMED) {
+		if (!this->isDrawing) {
+			this->posStixSource = this->posPrev;
+		}
 		this->isDrawing = true;
 		this->drawStix();
 		if (this->core->getKeyboard().held("OK")) {
@@ -114,8 +117,6 @@ void Player::drawStix() {
 }
 
 void Player::claimArea() {
-	sf::Vector2u bogusQixPos(50U, 50U);
-
 	this->isDrawing = false;
 	sf::Vector2u pos = this->posPrev;
 	sf::Vector2u adj1, adj2;
@@ -135,13 +136,18 @@ void Player::claimArea() {
 
 	if (this->isDrawingRed) {
 		this->field->replaceAll(STIX_RED, EDGE);
-		if (this->field->countPathCrossings(adj1, bogusQixPos, dir) % 2 == 1) this->field->iterativeFill(adj1, FieldPixelState::RED);
-		if (this->field->countPathCrossings(adj2, bogusQixPos, dir) % 2 == 1) this->field->iterativeFill(adj2, FieldPixelState::RED);
+		if (this->field->countPathCrossings(adj1, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj1, FieldPixelState::RED);
+		if (this->field->countPathCrossings(adj2, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj2, FieldPixelState::RED);
 	}
 	else {
 		this->field->replaceAll(STIX_BLUE, EDGE);
-		if (this->field->countPathCrossings(adj1, bogusQixPos, dir) % 2 == 1) this->field->iterativeFill(adj1, FieldPixelState::BLUE);
-		if (this->field->countPathCrossings(adj2, bogusQixPos, dir) % 2 == 1) this->field->iterativeFill(adj2, FieldPixelState::BLUE);
+		if (this->field->countPathCrossings(adj1, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj1, FieldPixelState::BLUE);
+		if (this->field->countPathCrossings(adj2, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj2, FieldPixelState::BLUE);
 	}
 	this->field->generateTexture();
+}
+
+void Player::returnToEdge() {
+	this->pos = this->posStixSource;
+	this->isDrawing = false;
 }

@@ -3,6 +3,7 @@
 #include "Window.hpp"
 #include "Sparks.hpp"
 #include "Core.hpp"
+//#include "Qix.hpp"
 
 typedef enum {
 	UNCLAIMED,
@@ -29,6 +30,7 @@ private:
 	sf::Texture tex;
 	sf::Sprite spr;
 	Sparks sparks;
+	std::list<class Qix*> qixList;
 public:
 	enum SearchDir {
 		HORIZONTAL,
@@ -36,8 +38,9 @@ public:
 	};
 
 	GameField();
-	GameField(sf::Vector2u _size, Core* _core);
+	GameField(Core* _core, sf::Vector2u _size);
 
+	void update(class Player* _plr);
 	void createOutline();
 	void generateTexture();
 	void render(Window& _window);
@@ -50,4 +53,6 @@ public:
 
 	int countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir);
 	void iterativeFill(sf::Vector2u _pos, FieldPixelState _clr);
+
+	sf::Vector2u getQixPos(int _id);
 };
