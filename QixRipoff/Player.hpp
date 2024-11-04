@@ -12,6 +12,7 @@ private:
 	float timerMove;
 	int life;
 	
+	sf::Vector2u posStixSource;
 	bool isDrawing;
 	bool isDrawingRed;
 
@@ -25,6 +26,8 @@ public:
 
 	void update();
 	void draw();
+
+	void returnToEdge();
 };
 
 

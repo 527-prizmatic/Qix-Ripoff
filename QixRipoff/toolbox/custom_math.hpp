@@ -31,4 +31,7 @@ namespace vect {
 	sf::Vector2f normalize(sf::Vector2f _v);
 	sf::Vector2f normalize(sf::Vector2i _v);
 	sf::Vector2f normalize(sf::Vector2u _v);
+
+	sf::Vector2f recToPol(sf::Vector2f _v);
+	sf::Vector2f polToRec(sf::Vector2f _v);
 }
