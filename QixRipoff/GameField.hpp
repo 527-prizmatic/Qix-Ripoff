@@ -1,7 +1,7 @@
 #pragma once
 #include "toolbox/toolbox.hpp"
 #include "Window.hpp"
-#include "Sparks.hpp"
+//#include "Sparks.hpp"
 #include "Core.hpp"
 //#include "Qix.hpp"
 
@@ -29,8 +29,8 @@ private:
 	sf::Image img;
 	sf::Texture tex;
 	sf::Sprite spr;
-	Sparks sparks;
 	std::list<class Qix*> qixList;
+	std::list<class Sparks*> sparksList;
 public:
 	enum SearchDir {
 		HORIZONTAL,

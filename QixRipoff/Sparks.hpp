@@ -1,8 +1,9 @@
 #pragma once
-#include "toolbox/toolbox.hpp"
 #include "Ennemy.hpp"
 #include "Core.hpp"
 
+class GameField;
+class Player;
 
 enum Direction
 {
@@ -16,11 +17,11 @@ class Sparks : public Ennemy
 {
 private:
 	Direction dir;
-	static std::list<Sparks> sparks;
+	float timerMove;
 public:
 	Sparks();
 	Sparks(Core* _core, GameField* _field, sf::Vector2u _pos, Direction _dir);
-	void update();
-	void draw();
+	void update(GameField* _field, class Player* _plr);
+	void draw(GameField* _field);
 };
 

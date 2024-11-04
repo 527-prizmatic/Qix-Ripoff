@@ -1,6 +1,7 @@
 #include "GameField.hpp"
 #include "resources/Textures.hpp"
 #include "Qix.hpp"
+#include "Sparks.hpp"
 
 const sf::Color clrUnclaimed = sf::Color::Transparent;
 const sf::Color clrBlue = sf::Color(0, 125, 123, 255);
@@ -15,7 +16,6 @@ GameField::GameField() {
 	this->size = sf::Vector2u(127U, 127U);
 	this->createOutline();
 	this->generateTexture();
-
 	this->qixList.push_back(new Qix());
 }
 
@@ -25,8 +25,8 @@ GameField::GameField(Core* _core, sf::Vector2u _size) {
 	this->size = _size;
 	this->createOutline();
 	this->generateTexture();
-	this->sparks = Sparks(_core, this, sf::Vector2u(1,1), LEFT);
-	this->sparks = Sparks(_core, this, sf::Vector2u(2, 2), RIGHT);
+	this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(0, 0), LEFT));
+	this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(0, 0), RIGHT));
 	this->qixList.push_back(new Qix(_core, this));
 }
 
@@ -57,9 +57,11 @@ void GameField::render(Window& _window) {
 	this->spr.setOrigin(sf::Vector2f(this->size) * .5f);
 	this->renderOffset = sf::Vector2u(sf::Vector2f(128.f, 112.f) - sf::Vector2f(this->size) * .5f);
 	_window.draw(this->spr);
-	this->sparks.draw();
 	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
 		(*q)->draw(this);
+	}
+	for (std::list<Sparks*>::iterator s = this->sparksList.begin(); s != this->sparksList.end(); ++s) {
+		(*s)->draw(this);
 	}
 }
 
