@@ -3,7 +3,7 @@
 #include "Player.hpp"
 
 sf::VertexArray Qix::renderVA;
-const int afterimageListSize = 10;
+const int afterimageListSize = 20;
 
 sf::Color hsl_to_rgb(sf::Color _hsl) {
 	sf::Color ret;
@@ -79,7 +79,7 @@ void Qix::update(GameField* _field, Player* _plr) {
 		bool valid = true;
 		do {
 			valid = true;
-			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 5 + 2) / 7.5f, (rand() % (int)(pi * 200)) * .01f));
+			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 8 + 3) / 10.f, (rand() % (int)(pi * 200)) * .01f));
 			posFuture = sf::Vector2u(this->absPos + this->direction * 30.f);
 			tileFuture = _field->getPixel(posFuture);
 			if (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX) {
@@ -109,19 +109,23 @@ void Qix::update(GameField* _field, Player* _plr) {
 		if (this->afterimagesColor.size() > afterimageListSize) this->afterimagesColor.pop_front();
 	}
 
-	if ((_field->getPixel(this->pos) & TYPE_MASK) == STIX) {
-		_field->replaceAll(STIX_BLUE, UNCLAIMED);
-		_field->replaceAll(STIX_RED, UNCLAIMED);
-		_plr->returnToEdge();
-		_field->generateTexture();
+	for (int i = 0; i < 9; i++) {
+		sf::Vector2u vec(i % 3 - 1, i / 3 - 1);
+		if ((_field->getPixel(this->pos + vec) & TYPE_MASK) == STIX) {
+			_field->replaceAll(STIX_BLUE, UNCLAIMED);
+			_field->replaceAll(STIX_RED, UNCLAIMED);
+			_plr->returnToEdge();
+			_field->generateTexture();
+			break;
+		}
 	}
 }
 
 void Qix::draw(GameField* _field) {
 	Qix::renderVA.clear();
 	Qix::renderVA.setPrimitiveType(sf::PrimitiveType::LineStrip);
-	sf::Vector2f point1 = sf::Vector2f(this->pos + sf::Vector2u(vect::polToRec(sf::Vector2f(10, this->angle * pi / 180.f))) + _field->getRenderOffset());
-	sf::Vector2f point2 = sf::Vector2f(this->pos - sf::Vector2u(vect::polToRec(sf::Vector2f(10, this->angle * pi / 180.f))) + _field->getRenderOffset());
+	sf::Vector2f point1 = sf::Vector2f(this->pos + sf::Vector2u(vect::polToRec(sf::Vector2f(12, this->angle * pi / 180.f))) + _field->getRenderOffset());
+	sf::Vector2f point2 = sf::Vector2f(this->pos - sf::Vector2u(vect::polToRec(sf::Vector2f(12, this->angle * pi / 180.f))) + _field->getRenderOffset());
 
 	Qix::renderVA.append(sf::Vertex(point1, this->clr));
 	Qix::renderVA.append(sf::Vertex(point2, this->clr));
@@ -131,8 +135,8 @@ void Qix::draw(GameField* _field) {
 	for (int i = 0; i < this->afterimagesAngle.size(); i++) {
 		Qix::renderVA.clear();
 		Qix::renderVA.setPrimitiveType(sf::PrimitiveType::LineStrip);
-		sf::Vector2f point1 = sf::Vector2f(this->afterimagesPos[i] + sf::Vector2u(vect::polToRec(sf::Vector2f(10, this->afterimagesAngle[i] * pi / 180.f))) + _field->getRenderOffset());
-		sf::Vector2f point2 = sf::Vector2f(this->afterimagesPos[i] - sf::Vector2u(vect::polToRec(sf::Vector2f(10, this->afterimagesAngle[i] * pi / 180.f))) + _field->getRenderOffset());
+		sf::Vector2f point1 = sf::Vector2f(this->afterimagesPos[i] + sf::Vector2u(vect::polToRec(sf::Vector2f(12, this->afterimagesAngle[i] * pi / 180.f))) + _field->getRenderOffset());
+		sf::Vector2f point2 = sf::Vector2f(this->afterimagesPos[i] - sf::Vector2u(vect::polToRec(sf::Vector2f(12, this->afterimagesAngle[i] * pi / 180.f))) + _field->getRenderOffset());
 
 		sf::Color clr = this->afterimagesColor[i];
 		clr.a = 255 / this->afterimagesAngle.size() * i;
