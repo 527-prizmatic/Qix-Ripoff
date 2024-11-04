@@ -32,6 +32,11 @@ private:
 //	std::list<class Qix*> qixList;
 
 public:
+	enum SearchDir {
+		HORIZONTAL,
+		VERTICAL
+	};
+
 	GameField();
 	GameField(Core* _core, sf::Vector2u _size);
 
@@ -41,7 +46,11 @@ public:
 	void render(Window& _window);
 	FieldPixelState getPixel(sf::Vector2u _pos);
 	void setPixel(sf::Vector2u _pos, FieldPixelState _state);
+	bool replaceAll(FieldPixelState _state_old, FieldPixelState _state_new);
 	inline const sf::Vector2u getSize() { return this->size; }
 	inline const sf::Vector2u getRenderOffset() { return this->renderOffset; }
 	bool isValidMovement(sf::Vector2u _pos);
+
+	int countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir);
+	void iterativeFill(sf::Vector2u _pos, FieldPixelState _clr);
 };

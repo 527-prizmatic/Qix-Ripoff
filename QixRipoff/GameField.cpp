@@ -10,9 +10,9 @@ const sf::Color clrStixRed = sf::Color(146, 36, 16, 128);
 const sf::Color clrEdge = sf::Color::White;
 
 GameField::GameField() {
-	this->img.create(128U, 128U, sf::Color::Transparent);
-	this->tex.create(128U, 128U);
-	this->size = sf::Vector2u(128U, 128U);
+	this->img.create(127U, 127U, sf::Color::Transparent);
+	this->tex.create(127U, 127U);
+	this->size = sf::Vector2u(127U, 127U);
 	this->createOutline();
 	this->generateTexture();
 
@@ -87,6 +87,19 @@ void GameField::setPixel(sf::Vector2u _pos, FieldPixelState _state) {
 	this->img.setPixel(_pos.x, _pos.y, clr);
 }
 
+bool GameField::replaceAll(FieldPixelState _state_old, FieldPixelState _state_new) {
+	bool replaced = false;
+	for (int y = 0; y < this->size.y; y++) {
+		for (int x = 0; x < this->size.x; x++) {
+			if (this->getPixel(sf::Vector2u(x, y)) == _state_old) {
+				this->setPixel(sf::Vector2u(x, y), _state_new);
+				replaced = true;
+			}
+		}
+	}
+	return replaced;
+}
+
 bool GameField::isValidMovement(sf::Vector2u _pos) {
 	FieldPixelState top		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(0, -1)));
 	FieldPixelState tl		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(-1, -1)));
@@ -98,4 +111,66 @@ bool GameField::isValidMovement(sf::Vector2u _pos) {
 	FieldPixelState tr		= this->getPixel(sf::Vector2u(sf::Vector2i(_pos) + sf::Vector2i(1, -1)));
 
 	return top == UNCLAIMED || bottom == UNCLAIMED || left == UNCLAIMED || right == UNCLAIMED || tl == UNCLAIMED || bl == UNCLAIMED || br == UNCLAIMED || tr == UNCLAIMED;
+}
+
+int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir) {
+	int crossings = 0;
+
+	if (_dir == HORIZONTAL) {
+		while (_src.x != _dest.x) {
+			if (_src.x < _dest.x) _src.x++;
+			else _src.x--;
+			if (this->getPixel(_src) == EDGE) crossings++;
+		}
+		while (_src.y != _dest.y) {
+			if (_src.y < _dest.y) _src.y++;
+			else _src.y--;
+			if (this->getPixel(_src) == EDGE) crossings++;
+		}
+	}
+
+	if (_dir == VERTICAL) {
+		while (_src.y != _dest.y) {
+			if (_src.y < _dest.y) _src.y++;
+			else _src.y--;
+			if (this->getPixel(_src) == EDGE) crossings++;
+		}
+		while (_src.x != _dest.x) {
+			if (_src.x < _dest.x) _src.x++;
+			else _src.x--;
+			if (this->getPixel(_src) == EDGE) crossings++;
+		}
+	}
+
+	return crossings;
+}
+
+void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
+	std::list<sf::Vector2u> posToFill;
+	std::list<sf::Vector2u> posFilled;
+	_clr = (FieldPixelState)(CLAIMED | (_clr & CLR_MASK));
+	posToFill.push_back(_pos);
+
+	while (1) {
+		bool filled = false;
+		
+		for (sf::Vector2u coord : posToFill) {
+			if (this->getPixel(coord) == UNCLAIMED) {
+				this->setPixel(coord, _clr);
+				filled = true;
+				if (this->getPixel(coord + sf::Vector2u(1, 0)) == UNCLAIMED)
+					posFilled.push_back(coord + sf::Vector2u(1, 0));
+				if (this->getPixel(coord - sf::Vector2u(1, 0)) == UNCLAIMED)
+					posFilled.push_back(coord - sf::Vector2u(1, 0));
+				if (this->getPixel(coord + sf::Vector2u(0, 1)) == UNCLAIMED)
+					posFilled.push_back(coord + sf::Vector2u(0, 1));
+				if (this->getPixel(coord - sf::Vector2u(0, 1)) == UNCLAIMED)
+					posFilled.push_back(coord - sf::Vector2u(0, 1));
+			}
+		}
+
+		if (!filled) break;
+		posToFill = std::list<sf::Vector2u>(posFilled);
+		posFilled.clear();
+	}
 }
