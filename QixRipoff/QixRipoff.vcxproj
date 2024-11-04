@@ -149,8 +149,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Preinit.cpp" />
+    <ClCompile Include="Qix.cpp" />
     <ClCompile Include="resources\Textures.cpp" />
-    <ClCompile Include="Sparks.cpp" />
     <ClCompile Include="states\Game.cpp" />
     <ClCompile Include="states\Menu.cpp" />
     <ClCompile Include="toolbox\interpolation.cpp" />
@@ -168,8 +168,8 @@
     <ClInclude Include="GameField.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Preinit.hpp" />
+    <ClInclude Include="Qix.hpp" />
     <ClInclude Include="resources\Textures.hpp" />
-    <ClInclude Include="Sparks.hpp" />
     <ClInclude Include="states\Game.hpp" />
     <ClInclude Include="states\Menu.hpp" />
     <ClInclude Include="states\State.hpp" />

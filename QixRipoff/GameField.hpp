@@ -1,6 +1,8 @@
 #pragma once
 #include "toolbox/toolbox.hpp"
 #include "Window.hpp"
+#include "Core.hpp"
+//#include "Qix.hpp"
 
 typedef enum {
 	UNCLAIMED,
@@ -27,11 +29,13 @@ private:
 	sf::Texture tex;
 	sf::Sprite spr;
 	/// Add some enemies in there
+	std::list<class Qix*> qixList;
 
 public:
 	GameField();
-	GameField(sf::Vector2u _size);
+	GameField(Core* _core, sf::Vector2u _size);
 
+	void update();
 	void createOutline();
 	void generateTexture();
 	void render(Window& _window);

@@ -3,6 +3,7 @@
 #include "GameField.hpp"
 #include"toolbox/toolbox.hpp"
 
+
 class Ennemy
 {
 protected:
@@ -13,7 +14,7 @@ protected:
 public:
 	Ennemy();
 	Ennemy(Core* _core, GameField* _field, sf::Vector2u _pos);
-	virtual void update() = 0;
-	virtual void draw() = 0;
+	virtual void update(GameField* _field) = 0;
+	virtual void draw(GameField* _field) = 0;
 };
 
