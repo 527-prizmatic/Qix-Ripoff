@@ -28,6 +28,7 @@ public:
 	void draw();
 
 	void returnToEdge();
+	void deathBlink();
 };
 
 

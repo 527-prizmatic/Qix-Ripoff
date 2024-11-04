@@ -9,7 +9,7 @@ namespace states {
 	}
 
 	void Game::init() {
-		this->field = GameField(this->core, sf::Vector2u(128U, 128U));
+		this->field = GameField(this->core, sf::Vector2u(161U, 161U));
 		this->player = Player(this->core, &this->field, sf::Vector2u(0, 0), 3);
 
 		Texture::preload("../assets/textures/marker.png", "marker");

@@ -53,9 +53,9 @@ void GameField::generateTexture() {
 
 void GameField::render(Window& _window) {
 	this->spr.setTexture(this->tex);
-	this->spr.setPosition(sf::Vector2f(128.f, 112.f));
+	this->spr.setPosition(sf::Vector2f(128.5f, 112.5f));
 	this->spr.setOrigin(sf::Vector2f(this->size) * .5f);
-	this->renderOffset = sf::Vector2u(sf::Vector2f(128.f, 112.f) - sf::Vector2f(this->size) * .5f);
+	this->renderOffset = sf::Vector2u(sf::Vector2f(128.5f, 112.5f) - sf::Vector2f(this->size) * .5f);
 	_window.draw(this->spr);
 	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
 		(*q)->draw(this);
@@ -117,6 +117,9 @@ bool GameField::isValidMovement(sf::Vector2u _pos) {
 
 int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir) {
 	int crossings = 0;
+
+	_dest.x = _dest.x / 2 * 2 + 1;
+	_dest.y = _dest.y / 2 * 2 + 1;
 
 	if (_dir == HORIZONTAL) {
 		while (_src.x != _dest.x) {

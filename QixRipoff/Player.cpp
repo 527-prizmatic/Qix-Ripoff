@@ -31,7 +31,12 @@ void Player::update()
 {
 	/// FIXME REVERT FAST SPEED TO NORMAL AND MAKE TIMERMOVE VARY INSTEAD
 	timerMove += tutil::getDelta();
-	if (timerMove > 0.05f)
+
+	bool slow = false;
+	if (this->core->getKeyboard().held("Kaboom")) slow = true;
+	if (!this->isDrawing) slow = false;
+
+	if ((timerMove > 0.05f && !slow) || (timerMove > 0.1f && slow))
 	{
 		sf::Vector2u posNext = this->pos;
 		sf::Vector2u posNext2 = this->pos;
@@ -61,23 +66,33 @@ void Player::update()
 			posNext2 += sf::Vector2u(2, 0);
 		}
 
-
-		if (this->core->getKeyboard().held("OK")) {
-			if ((this->field->getPixel(posNext) == EDGE || this->field->getPixel(posNext) == UNCLAIMED) && this->field->isValidMovement(posNext)) {
-				this->posPrev = this->pos;
-				this->pos = posNext;
-			}
-		}
-		else if (this->core->getKeyboard().held("Kaboom")) {
-			if ((this->field->getPixel(posNext) == EDGE || this->field->getPixel(posNext) == UNCLAIMED) && this->field->isValidMovement(posNext)) {
-				this->posPrev = this->pos;
-				this->pos = posNext;
-			}
+		if (((this->field->getPixel(posNext) & TYPE_MASK) == STIX || (this->field->getPixel(posNext2) & TYPE_MASK) == STIX) == STIX && this->pos != posNext) {
+			this->field->replaceAll(STIX_BLUE, UNCLAIMED);
+			this->field->replaceAll(STIX_RED, UNCLAIMED);
+			this->returnToEdge();
+			this->field->generateTexture();
 		}
 		else {
-			if (this->field->getPixel(posNext) == EDGE && this->field->isValidMovement(posNext)) {
-				this->posPrev = this->pos;
-				this->pos = posNext;
+			if (!this->isDrawing) {
+				this->posStixSource = this->pos;
+			}
+			if (this->core->getKeyboard().held("OK")) {
+				if ((this->field->getPixel(posNext2) == EDGE || this->field->getPixel(posNext2) == UNCLAIMED) && this->field->isValidMovement(posNext2)) {
+					this->posPrev = posNext;
+					this->pos = posNext2;
+				}
+			}
+			else if (this->core->getKeyboard().held("Kaboom")) {
+				if ((this->field->getPixel(posNext2) == EDGE || this->field->getPixel(posNext2) == UNCLAIMED) && this->field->isValidMovement(posNext2)) {
+					this->posPrev = posNext;
+					this->pos = posNext2;
+				}
+			}
+			else {
+				if (this->field->getPixel(posNext2) == EDGE && this->field->isValidMovement(posNext2)) {
+					this->posPrev = posNext;
+					this->pos = posNext2;
+				}
 			}
 		}
 	}
@@ -91,9 +106,6 @@ void Player::update()
 		this->isDrawingRed = true;
 	}
 	else if (this->field->getPixel(this->pos) == UNCLAIMED) {
-		if (!this->isDrawing) {
-			this->posStixSource = this->posPrev;
-		}
 		this->isDrawing = true;
 		this->drawStix();
 		if (this->core->getKeyboard().held("OK")) {
@@ -102,17 +114,23 @@ void Player::update()
 			this->field->generateTexture();
 		}
 	}
+
+	this->pos.x - this->pos.x % 2;
+	this->pos.y - this->pos.y % 2;
 }
 
 void Player::draw()
 {
-	renderSpr.setTexture(Texture::getTexture("marker"));
-	renderSpr.setPosition(sf::Vector2f(this->pos + this->field->getRenderOffset()) - sf::Vector2f(3.f, 3.f));
-	this->core->getWindow().draw(renderSpr);
+	if (this->timerMove >= 0.f || std::fmod(std::abs(this->timerMove), .25f) < .125f) {
+		renderSpr.setTexture(Texture::getTexture("marker"));
+		renderSpr.setPosition(sf::Vector2f(this->pos + this->field->getRenderOffset()) - sf::Vector2f(3.f, 3.f));
+		this->core->getWindow().draw(renderSpr);
+	}
 }
 
 void Player::drawStix() {
 	this->field->setPixel(this->pos, this->isDrawingRed ? STIX_RED : STIX_BLUE);
+	this->field->setPixel(this->posPrev, this->isDrawingRed ? STIX_RED : STIX_BLUE);
 	this->field->generateTexture();
 }
 
@@ -150,4 +168,9 @@ void Player::claimArea() {
 void Player::returnToEdge() {
 	this->pos = this->posStixSource;
 	this->isDrawing = false;
+	this->deathBlink();
+}
+
+void Player::deathBlink() {
+	this->timerMove = -1.5f;
 }
