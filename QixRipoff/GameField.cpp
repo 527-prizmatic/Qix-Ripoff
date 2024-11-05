@@ -74,8 +74,6 @@ void GameField::render(Window& _window) {
 	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
 		(*q)->draw(this);
 	}
-
-	std::cout << this->pixelsClaimed << " / " << this->pixelCount << std::endl;
 }
 
 FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
@@ -215,8 +213,8 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 		posFilled.clear();
 	}
 
-	count = pow(count, 1.25f) * .1f;
-	if (_clr == RED) count *= 2.f;
+	count = pow(count * .9f, 1.1f) * .1f;
+	if ((_clr & CLR_MASK) == RED) count *= 2.f;
 	this->score->addScore(count);
 }
 

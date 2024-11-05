@@ -25,7 +25,7 @@ namespace states {
 	void Game::render() {
 		this->field.render(this->core->getWindow());
 		this->player.draw();
-		this->score.render(this->core->getWindow(), sf::Vector2u(30U, 30U));
+		this->score.render(this->core->getWindow(), sf::Vector2u(48U, 18U));
 	}
 
 	void Game::unload() {
