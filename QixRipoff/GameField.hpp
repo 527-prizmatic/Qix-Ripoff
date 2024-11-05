@@ -5,6 +5,8 @@
 #include "Core.hpp"
 //#include "Qix.hpp"
 
+class Score;
+
 typedef enum {
 	UNCLAIMED,
 	STIX,
@@ -29,6 +31,9 @@ private:
 	sf::Image img;
 	sf::Texture tex;
 	sf::Sprite spr;
+	int pixelCount;
+	int pixelsClaimed;
+	Score* score;
 	std::list<class Qix*> qixList;
 	std::list<class Sparks*> sparksList;
 public:
@@ -38,7 +43,7 @@ public:
 	};
 
 	GameField();
-	GameField(Core* _core, sf::Vector2u _size);
+	GameField(Core* _core, sf::Vector2u _size, Score* _score);
 
 	void update(class Player* _plr);
 	void createOutline();
