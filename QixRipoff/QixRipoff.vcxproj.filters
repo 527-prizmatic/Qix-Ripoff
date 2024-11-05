@@ -114,6 +114,9 @@
     <ClCompile Include="Score.cpp">
       <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Sparks.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controls\Mouse.hpp">
@@ -174,6 +177,9 @@
       <Filter>Header Files\Engine\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Score.hpp">
+      <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sparks.hpp">
       <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
   </ItemGroup>

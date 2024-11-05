@@ -24,6 +24,7 @@ void Sparks::update(GameField* _field, class Player* _plr)
 	{
 		sf::Vector2u posNext = this->pos;
 		sf::Vector2u posNext2 = this->pos;
+
 		changeDirection(_field, posNext);
 
 		if (this->dir == UP)
