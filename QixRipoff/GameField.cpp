@@ -1,6 +1,7 @@
 #include "GameField.hpp"
 #include "resources/Textures.hpp"
 #include "Qix.hpp"
+#include "Sparks.hpp"
 #include "Score.hpp"
 
 const sf::Color clrUnclaimed = sf::Color::Transparent;
@@ -16,9 +17,9 @@ GameField::GameField() {
 	this->size = sf::Vector2u(127U, 127U);
 	this->pixelCount = (this->size.x - 2) * (this->size.y - 2);
 	this->pixelsClaimed = 0;
+	this->timerSparkSpawn = 0.f;
 	this->createOutline();
 	this->generateTexture();
-
 	this->qixList.push_back(new Qix());
 }
 
@@ -28,20 +29,34 @@ GameField::GameField(Core* _core, sf::Vector2u _size, Score* _score) {
 	this->size = _size;
 	this->pixelCount = (this->size.x - 2) * (this->size.y - 2);
 	this->pixelsClaimed = 0;
+	this->timerSparkSpawn = 0.f;
 	this->score = _score;
 	this->createOutline();
 	this->generateTexture();
-
+	this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(this->size.x / 2, 0), LEFT));
+	this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(this->size.x / 2, 0), RIGHT));
 	this->qixList.push_back(new Qix(_core, this));
 }
 
-void GameField::update(Player* _plr) {
+void GameField::update(Core* _core, Player* _plr) 
+{
+	this->timerSparkSpawn += tutil::getDelta();
+	if (this->timerSparkSpawn >= 20.f) {
+		this->timerSparkSpawn = 0.f;
+		this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(this->size.x / 2, 0), LEFT));
+		this->sparksList.push_back(new Sparks(_core, this, sf::Vector2u(this->size.x / 2, 0), RIGHT));
+	}
+
 	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
 		(*q)->update(this, _plr);
 	}
+	for (std::list<Sparks*>::iterator s = this->sparksList.begin(); s != this->sparksList.end(); ++s) 
+	{
+		(*s)->update(this, _plr);
+	}
 }
-
 void GameField::createOutline() {
+
 	for (unsigned int i = 0; i < this->size.x; i++) {
 		this->setPixel(sf::Vector2u(i, 0), EDGE);
 		this->setPixel(sf::Vector2u(i, this->size.y - 1), EDGE);
@@ -70,9 +85,11 @@ void GameField::render(Window& _window) {
 	this->spr.setOrigin(sf::Vector2f(this->size) * .5f);
 	this->renderOffset = sf::Vector2u(sf::Vector2f(128.5f, 112.5f) - sf::Vector2f(this->size) * .5f);
 	_window.draw(this->spr);
-
 	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
 		(*q)->draw(this);
+	}
+	for (std::list<Sparks*>::iterator s = this->sparksList.begin(); s != this->sparksList.end(); ++s) {
+		(*s)->draw(this);
 	}
 }
 
@@ -85,7 +102,7 @@ FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
 	if (clr == clrBlue)			return CLAIMED_BLUE;
 	if (clr == clrRed)			return CLAIMED_RED;
 	if (clr == clrEdge)			return EDGE;
-	return CLAIMED_BLUE;
+	return CLAIMED_BLUE;	
 }
 
 void GameField::setPixel(sf::Vector2u _pos, FieldPixelState _state) {
@@ -213,7 +230,7 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 		posFilled.clear();
 	}
 
-	count = pow(count * .9f, 1.1f) * .1f;
+	count = pow(count * .9f, 1.25f) * .1f;
 	if ((_clr & CLR_MASK) == RED) count *= 2.f;
 	this->score->addScore(count);
 }

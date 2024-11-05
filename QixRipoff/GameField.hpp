@@ -1,6 +1,7 @@
 #pragma once
 #include "toolbox/toolbox.hpp"
 #include "Window.hpp"
+//#include "Sparks.hpp"
 #include "Core.hpp"
 //#include "Qix.hpp"
 
@@ -33,10 +34,9 @@ private:
 	int pixelCount;
 	int pixelsClaimed;
 	Score* score;
-
-	/// Add some enemies in there
+	float timerSparkSpawn;
 	std::list<class Qix*> qixList;
-
+	std::list<class Sparks*> sparksList;
 public:
 	enum SearchDir {
 		HORIZONTAL,
@@ -46,7 +46,7 @@ public:
 	GameField();
 	GameField(Core* _core, sf::Vector2u _size, Score* _score);
 
-	void update(class Player* _plr);
+	void update(Core* _core, class Player* _plr);
 	void createOutline();
 	void generateTexture();
 	void render(Window& _window);

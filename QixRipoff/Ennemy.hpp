@@ -1,8 +1,7 @@
 #pragma once
 #include "Core.hpp"
-#include "GameField.hpp"
 #include"toolbox/toolbox.hpp"
-
+class GameField;
 
 class Ennemy
 {
