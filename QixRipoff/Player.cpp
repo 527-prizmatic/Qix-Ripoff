@@ -65,7 +65,7 @@ void Player::update()
 			posNext += sf::Vector2u(1, 0);
 			posNext2 += sf::Vector2u(2, 0);
 		}
-
+		if (this->timerMove > 0.f)
 		if (((this->field->getPixel(posNext) & TYPE_MASK) == STIX || (this->field->getPixel(posNext2) & TYPE_MASK) == STIX) == STIX && this->pos != posNext) {
 			this->field->replaceAll(STIX_BLUE, UNCLAIMED);
 			this->field->replaceAll(STIX_RED, UNCLAIMED);
