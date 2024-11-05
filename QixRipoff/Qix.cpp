@@ -74,13 +74,13 @@ void Qix::update(GameField* _field, Player* _plr) {
 
 	sf::Vector2u posFuture = sf::Vector2u(this->absPos + this->direction * 20.f);
 	FieldPixelState tileFuture = _field->getPixel(posFuture);
-	if (this->timerDirChange > 1.f || (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX)) {
+	if (this->timerDirChange > .8f || (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX)) {
 		this->timerDirChange = 0.f;
 		bool valid = true;
 		int attempts = 0;
 		do {
 			valid = true;
-			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 9 + 2) / 10.f, (rand() % (int)(pi * 200)) * .01f));
+			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 9 + 1) / 8.f, (rand() % (int)(pi * 200)) * .01f));
 			posFuture = sf::Vector2u(this->absPos + this->direction * 20.f);
 			tileFuture = _field->getPixel(posFuture);
 			if (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX) {
@@ -114,8 +114,8 @@ void Qix::update(GameField* _field, Player* _plr) {
 		if (this->afterimagesColor.size() > afterimageListSize) this->afterimagesColor.pop_front();
 	}
 
-	for (int i = 0; i < 9; i++) {
-		sf::Vector2u vec(i % 3 - 1, i / 3 - 1);
+	for (int i = 0; i < 49; i++) {
+		sf::Vector2u vec(i % 7 - 3, i / 7 - 3);
 		if ((_field->getPixel(this->pos + vec) & TYPE_MASK) == STIX) {
 			_field->replaceAll(STIX_BLUE, UNCLAIMED);
 			_field->replaceAll(STIX_RED, UNCLAIMED);

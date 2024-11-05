@@ -7,7 +7,7 @@ sf::Font Score::txtFont;
 void Score::preinit() {
 	Score::txtFont.loadFromFile("../assets/fonts/qix-small.ttf");
 	Score::txtDisplay.setFont(Score::txtFont);
-	Score::txtDisplay.setCharacterSize(12);
+	Score::txtDisplay.setCharacterSize(9);
 }
 
 Score::Score() {

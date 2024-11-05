@@ -58,6 +58,7 @@ public:
 
 	int countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir);
 	void iterativeFill(sf::Vector2u _pos, FieldPixelState _clr);
+	float getFillRatio() const { return (float)this->pixelsClaimed / (float)this->pixelCount;  }
 
 	sf::Vector2u getQixPos(int _id);
 };
