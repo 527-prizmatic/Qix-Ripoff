@@ -79,7 +79,7 @@ FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
 	if (clr == clrBlue)			return CLAIMED_BLUE;
 	if (clr == clrRed)			return CLAIMED_RED;
 	if (clr == clrEdge)			return EDGE;
-	return CLAIMED_BLUE;
+	return CLAIMED_BLUE;	
 }
 
 void GameField::setPixel(sf::Vector2u _pos, FieldPixelState _state) {

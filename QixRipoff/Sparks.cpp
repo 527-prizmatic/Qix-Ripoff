@@ -1,5 +1,4 @@
 #include "Sparks.hpp"
-#include "GameField.hpp"
 #include "Player.hpp"
 
 sf::RectangleShape rectangleSparks(sf::Vector2f(10, 10));
@@ -27,31 +26,38 @@ void Sparks::update(GameField* _field, class Player* _plr)
 		sf::Vector2u posNext2 = this->pos;
 		changeDirection(_field, posNext);
 
-		if (this->dir == UP && _field->getPixel(posNext) == EDGE)
+		if (this->dir == UP)
 		{
 			timerMove = 0.f;
 			posNext += sf::Vector2u(0, -1);
 			posNext2 += sf::Vector2u(0, -2);
 		}
-		if (this->dir == DOWN && _field->getPixel(posNext) == EDGE)
+		if (this->dir == DOWN )
 		{
 			timerMove = 0.f;
 			posNext += sf::Vector2u(0, 1);
 			posNext2 += sf::Vector2u(0, 2);
 		}
-		if (this->dir == LEFT && _field->getPixel(posNext) == EDGE)
+		if (this->dir == LEFT)
 		{
 			timerMove = 0.f;
 			posNext += sf::Vector2u(-1, 0);
 			posNext2 += sf::Vector2u(-2, 0);
 		}
-		if (this->dir == RIGHT && _field->getPixel(posNext) == EDGE)
+		if (this->dir == RIGHT)
 		{
 			timerMove = 0.f;
 			posNext += sf::Vector2u(1, 0);
 			posNext2 += sf::Vector2u(2, 0);
 		}
-		this->pos = posNext2;
+		if (_field->getPixel(posNext2) == EDGE && _field->isValidMovement(posNext2))
+		{
+			this->pos = posNext2;
+		}
+		else
+		{
+			this->pos = posNext2;
+		}
 
 	}
 }
