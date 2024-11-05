@@ -6,6 +6,8 @@
 
 #include "resources/Textures.hpp"
 
+#include "Score.hpp"
+
 const std::string KeyOpenMenu = "OpenMenu";
 const std::string KeyOpenGame = "OpenGame";
 const std::string KeyUp = "Up";
@@ -19,7 +21,8 @@ const std::string KeyKaboom = "Kaboom";
 
 void preinit(Core& _core) {
 	std::srand(std::time(NULL));
-	Texture::init();
+	Texture::preinit();
+	Score::preinit();
 	_core.registerState(MENU, (states::State*)(new states::Menu(&_core)));
 	_core.registerState(GAME, (states::State*)(new states::Game(&_core)));
 }

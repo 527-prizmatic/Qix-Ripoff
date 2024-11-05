@@ -72,15 +72,15 @@ void Qix::update(GameField* _field, Player* _plr) {
 		this->pos = sf::Vector2u(this->absPos);
 	}
 
-	sf::Vector2u posFuture = sf::Vector2u(this->absPos + this->direction * 30.f);
+	sf::Vector2u posFuture = sf::Vector2u(this->absPos + this->direction * 20.f);
 	FieldPixelState tileFuture = _field->getPixel(posFuture);
 	if (this->timerDirChange > 1.f || (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX)) {
 		this->timerDirChange = 0.f;
 		bool valid = true;
 		do {
 			valid = true;
-			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 8 + 3) / 10.f, (rand() % (int)(pi * 200)) * .01f));
-			posFuture = sf::Vector2u(this->absPos + this->direction * 30.f);
+			this->direction = vect::polToRec(sf::Vector2f((float)(rand() % 9 + 2) / 10.f, (rand() % (int)(pi * 200)) * .01f));
+			posFuture = sf::Vector2u(this->absPos + this->direction * 20.f);
 			tileFuture = _field->getPixel(posFuture);
 			if (tileFuture != UNCLAIMED && (tileFuture & TYPE_MASK) != STIX) {
 				valid = false;

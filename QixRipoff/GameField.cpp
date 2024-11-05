@@ -1,6 +1,7 @@
 #include "GameField.hpp"
 #include "resources/Textures.hpp"
 #include "Qix.hpp"
+#include "Score.hpp"
 
 const sf::Color clrUnclaimed = sf::Color::Transparent;
 const sf::Color clrBlue = sf::Color(0, 125, 123, 255);
@@ -13,16 +14,21 @@ GameField::GameField() {
 	this->img.create(127U, 127U, sf::Color::Transparent);
 	this->tex.create(127U, 127U);
 	this->size = sf::Vector2u(127U, 127U);
+	this->pixelCount = (this->size.x - 2) * (this->size.y - 2);
+	this->pixelsClaimed = 0;
 	this->createOutline();
 	this->generateTexture();
 
 	this->qixList.push_back(new Qix());
 }
 
-GameField::GameField(Core* _core, sf::Vector2u _size) {
+GameField::GameField(Core* _core, sf::Vector2u _size, Score* _score) {
 	this->img.create(_size.x, _size.y, sf::Color::Transparent);
 	this->tex.create(_size.x, _size.y);
 	this->size = _size;
+	this->pixelCount = (this->size.x - 2) * (this->size.y - 2);
+	this->pixelsClaimed = 0;
+	this->score = _score;
 	this->createOutline();
 	this->generateTexture();
 
@@ -48,6 +54,14 @@ void GameField::createOutline() {
 
 void GameField::generateTexture() {
 	this->tex.loadFromImage(this->img, sf::IntRect(0, 0, this->size.x, this->size.y));
+
+	this->pixelsClaimed = 0;
+	for (int i = 1; i < this->size.x - 1; i++) {
+		for (int j = 1; j < this->size.y - 1; j++) {
+			FieldPixelState pxl = this->getPixel(sf::Vector2u(i, j));
+			if ((pxl != UNCLAIMED) && ((pxl & TYPE_MASK) != STIX)) this->pixelsClaimed++;
+		}
+	}
 }
 
 void GameField::render(Window& _window) {
@@ -60,6 +74,8 @@ void GameField::render(Window& _window) {
 	for (std::list<Qix*>::iterator q = this->qixList.begin(); q != this->qixList.end(); ++q) {
 		(*q)->draw(this);
 	}
+
+	std::cout << this->pixelsClaimed << " / " << this->pixelCount << std::endl;
 }
 
 FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
@@ -153,11 +169,13 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 	_clr = (FieldPixelState)(CLAIMED | (_clr & CLR_MASK));
 	posToFill.push_back(_pos);
 
+	int count = 0;
 	while (1) {
 		bool filled = false;
 		
 		for (sf::Vector2u coord : posToFill) {
 			if (this->getPixel(coord) == UNCLAIMED) {
+				count++;
 				this->setPixel(coord, _clr);
 				filled = true;
 				if (this->getPixel(coord + sf::Vector2u(1, 0)) == UNCLAIMED)
@@ -175,6 +193,10 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 		posToFill = std::list<sf::Vector2u>(posFilled);
 		posFilled.clear();
 	}
+
+	count = pow(count, 1.25f) * .1f;
+	if (_clr == RED) count *= 2.f;
+	this->score->addScore(count);
 }
 
 sf::Vector2u GameField::getQixPos(int _id) {
