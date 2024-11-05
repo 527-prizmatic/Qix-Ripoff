@@ -29,6 +29,8 @@ public:
 
 	void returnToEdge();
 	void deathBlink();
+
+	sf::Vector2u getPos() const { return this->pos; }
 };
 
 

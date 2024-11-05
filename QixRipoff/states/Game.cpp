@@ -15,7 +15,7 @@ namespace states {
 
 	void Game::init() {
 		this->field = GameField(this->core, sf::Vector2u(161U, 161U), &this->score);
-		this->player = Player(this->core, &this->field, sf::Vector2u(0, 0), 3);
+		this->player = Player(this->core, &this->field, sf::Vector2u(0U, 160U), 3);
 		this->score = Score();
 		this->level = 1;
 
@@ -32,16 +32,16 @@ namespace states {
 			if (endLevelTimer >= 2.f) {
 				this->score.addScore((int)(100000 * (this->field.getFillRatio() - difficulty)));
 				this->field = GameField(this->core, sf::Vector2u(161U, 161U), &this->score);
-				this->player = Player(this->core, &this->field, sf::Vector2u(0, 0), 3);
+				this->player = Player(this->core, &this->field, sf::Vector2u(0U, 160U), 3);
 				this->level++;
-				this->field.update(&(this->player));
+				this->field.update(this->core, &(this->player));
 				this->player.update();
 				endLevelTimer = 0.f;
 			}
 		}
 		else {
 			endLevelTimer = 0.f;
-			this->field.update(&(this->player));
+			this->field.update(this->core, &(this->player));
 			this->player.update();
 
 			if (this->core->getKeyboard().pressed("OpenMenu")) this->core->requestStateChange(GameState::MENU);

@@ -1,12 +1,13 @@
 #include "Sparks.hpp"
 #include "Player.hpp"
 
-sf::RectangleShape rectangleSparks(sf::Vector2f(10, 10));
+sf::RectangleShape rectangleSparks(sf::Vector2f(7, 7));
 
 Sparks::Sparks()
 {
-	/*this->dir = DOWN;
-	Sparks::sparks.push_back(*this);*/
+	this->dir = DOWN;
+	this->timerMove = 0.f;
+	this->timerChangeDir = 0.f;
 }
 
 Sparks::Sparks(Core* _core, GameField* _field, sf::Vector2u _pos, Direction _dir):Ennemy(_core, _field, _pos)
@@ -20,12 +21,10 @@ void Sparks::update(GameField* _field, class Player* _plr)
 {
 	timerMove += tutil::getDelta();
 	timerChangeDir += tutil::getDelta();
-	if (timerMove > 0.045)
+	if (timerMove > 0.04f)
 	{
 		sf::Vector2u posNext = this->pos;
 		sf::Vector2u posNext2 = this->pos;
-
-		changeDirection(_field, posNext);
 
 		if (this->dir == UP)
 		{
@@ -51,15 +50,30 @@ void Sparks::update(GameField* _field, class Player* _plr)
 			posNext += sf::Vector2u(1, 0);
 			posNext2 += sf::Vector2u(2, 0);
 		}
-		if (_field->getPixel(posNext2) == EDGE && _field->isValidMovement(posNext2))
-		{
-			this->pos = posNext2;
+
+		if (_field->getPixel(posNext2) == EDGE) {
+			if (_field->isValidMovement(posNext2) || !_field->isValidMovement(this->pos)) {
+				this->pos = posNext2;
+			}
+			else changeDirection(_field, this->pos);
 		}
-		else
-		{
-			this->pos = posNext2;
+		else {
+			changeDirection(_field, this->pos);
 		}
 
+
+	//	changeDirection(_field, posNext);
+	}
+	
+	for (int i = 0; i < 49; i++) {
+		sf::Vector2u vec(i % 7 - 3, i / 7 - 3);
+		if (_plr->getPos() == this->pos + vec) {
+			_field->replaceAll(STIX_BLUE, UNCLAIMED);
+			_field->replaceAll(STIX_RED, UNCLAIMED);
+			_plr->returnToEdge();
+			_field->generateTexture();
+			break;
+		}
 	}
 }
 
@@ -126,22 +140,22 @@ void Sparks::changeDirection(GameField* _field, sf::Vector2u _pos)
 {
 	if (isThereIntersection(_field, _pos) != NONEDIRECTION)
 	{
-		if (isThereIntersection(_field, _pos) == UP)
+		if (isThereIntersection(_field, _pos) == UP && this->dir != UP)
 		{
 			this->timerChangeDir = 0.f;
 			this->dir = UP;
 		}
-		if (isThereIntersection(_field, _pos) == DOWN)
+		if (isThereIntersection(_field, _pos) == DOWN && this->dir != DOWN)
 		{
 			this->timerChangeDir = 0.f;
 			this->dir = DOWN;
 		}
-		if (isThereIntersection(_field, _pos) == LEFT)
+		if (isThereIntersection(_field, _pos) == LEFT && this->dir != LEFT)
 		{
 			this->timerChangeDir = 0.f;
 			this->dir = LEFT;
 		}
-		if (isThereIntersection(_field, _pos) == RIGHT)
+		if (isThereIntersection(_field, _pos) == RIGHT && this->dir != RIGHT)
 		{
 			this->timerChangeDir = 0.f;
 			this->dir = RIGHT;
