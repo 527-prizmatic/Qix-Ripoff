@@ -8,8 +8,9 @@ namespace states {
 	}
 
 	void Game::init() {
-		this->field = GameField(this->core, sf::Vector2u(161U, 161U));
+		this->field = GameField(this->core, sf::Vector2u(161U, 161U), &this->score);
 		this->player = Player(this->core, &this->field, sf::Vector2u(0, 0), 3);
+		this->score = Score();
 
 		Texture::preload("../assets/textures/marker.png", "marker");
 	}
@@ -24,6 +25,7 @@ namespace states {
 	void Game::render() {
 		this->field.render(this->core->getWindow());
 		this->player.draw();
+		this->score.render(this->core->getWindow(), sf::Vector2u(48U, 18U));
 	}
 
 	void Game::unload() {

@@ -17,7 +17,7 @@ Texture::Texture(sf::Texture& _tex, std::string _id) {
 	this->id = _id;
 }
 
-void Texture::init() {
+void Texture::preinit() {
 	Texture::placeholder.loadFromFile("../assets/textures/placeholder.png");
 }
 

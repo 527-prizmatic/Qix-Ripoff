@@ -111,6 +111,9 @@
     <ClCompile Include="Qix.cpp">
       <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controls\Mouse.hpp">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="resources\Textures.hpp">
       <Filter>Header Files\Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.hpp">
+      <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

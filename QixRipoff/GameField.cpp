@@ -1,6 +1,7 @@
 #include "GameField.hpp"
 #include "resources/Textures.hpp"
 #include "Qix.hpp"
+#include "Score.hpp"
 
 const sf::Color clrUnclaimed = sf::Color::Transparent;
 const sf::Color clrBlue = sf::Color(0, 125, 123, 255);
@@ -13,16 +14,21 @@ GameField::GameField() {
 	this->img.create(127U, 127U, sf::Color::Transparent);
 	this->tex.create(127U, 127U);
 	this->size = sf::Vector2u(127U, 127U);
+	this->pixelCount = (this->size.x - 2) * (this->size.y - 2);
+	this->pixelsClaimed = 0;
 	this->createOutline();
 	this->generateTexture();
 
 	this->qixList.push_back(new Qix());
 }
 
-GameField::GameField(Core* _core, sf::Vector2u _size) {
+GameField::GameField(Core* _core, sf::Vector2u _size, Score* _score) {
 	this->img.create(_size.x, _size.y, sf::Color::Transparent);
 	this->tex.create(_size.x, _size.y);
 	this->size = _size;
+	this->pixelCount = (this->size.x - 2) * (this->size.y - 2);
+	this->pixelsClaimed = 0;
+	this->score = _score;
 	this->createOutline();
 	this->generateTexture();
 
@@ -48,6 +54,14 @@ void GameField::createOutline() {
 
 void GameField::generateTexture() {
 	this->tex.loadFromImage(this->img, sf::IntRect(0, 0, this->size.x, this->size.y));
+
+	this->pixelsClaimed = 0;
+	for (int i = 1; i < this->size.x - 1; i++) {
+		for (int j = 1; j < this->size.y - 1; j++) {
+			FieldPixelState pxl = this->getPixel(sf::Vector2u(i, j));
+			if ((pxl != UNCLAIMED) && ((pxl & TYPE_MASK) != STIX)) this->pixelsClaimed++;
+		}
+	}
 }
 
 void GameField::render(Window& _window) {
@@ -114,6 +128,7 @@ bool GameField::isValidMovement(sf::Vector2u _pos) {
 
 int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum SearchDir _dir) {
 	int crossings = 0;
+	bool isClaim = false;
 
 	_dest.x = _dest.x / 2 * 2 + 1;
 	_dest.y = _dest.y / 2 * 2 + 1;
@@ -122,12 +137,22 @@ int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum Se
 		while (_src.x != _dest.x) {
 			if (_src.x < _dest.x) _src.x++;
 			else _src.x--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 		while (_src.y != _dest.y) {
 			if (_src.y < _dest.y) _src.y++;
 			else _src.y--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 	}
 
@@ -135,12 +160,22 @@ int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum Se
 		while (_src.y != _dest.y) {
 			if (_src.y < _dest.y) _src.y++;
 			else _src.y--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 		while (_src.x != _dest.x) {
 			if (_src.x < _dest.x) _src.x++;
 			else _src.x--;
-			if (this->getPixel(_src) == EDGE) crossings++;
+			if (this->getPixel(_src) == EDGE && !isClaim) crossings++;
+			if ((this->getPixel(_src) & TYPE_MASK) == CLAIMED) isClaim = true;
+			if (this->getPixel(_src) == UNCLAIMED) {
+				if (isClaim) crossings++;
+				isClaim = false;
+			}
 		}
 	}
 
@@ -153,11 +188,13 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 	_clr = (FieldPixelState)(CLAIMED | (_clr & CLR_MASK));
 	posToFill.push_back(_pos);
 
+	int count = 0;
 	while (1) {
 		bool filled = false;
 		
 		for (sf::Vector2u coord : posToFill) {
 			if (this->getPixel(coord) == UNCLAIMED) {
+				count++;
 				this->setPixel(coord, _clr);
 				filled = true;
 				if (this->getPixel(coord + sf::Vector2u(1, 0)) == UNCLAIMED)
@@ -175,6 +212,10 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 		posToFill = std::list<sf::Vector2u>(posFilled);
 		posFilled.clear();
 	}
+
+	count = pow(count * .9f, 1.1f) * .1f;
+	if ((_clr & CLR_MASK) == RED) count *= 2.f;
+	this->score->addScore(count);
 }
 
 sf::Vector2u GameField::getQixPos(int _id) {
