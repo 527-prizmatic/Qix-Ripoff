@@ -31,6 +31,7 @@ public:
 	void deathBlink();
 
 	sf::Vector2u getPos() const { return this->pos; }
+	float getTimerMove() const { return this->timerMove; }
 };
 
 

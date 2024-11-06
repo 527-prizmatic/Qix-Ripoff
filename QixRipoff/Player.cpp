@@ -65,7 +65,6 @@ void Player::update()
 			posNext += sf::Vector2u(1, 0);
 			posNext2 += sf::Vector2u(2, 0);
 		}
-
 		if (((this->field->getPixel(posNext) & TYPE_MASK) == STIX || (this->field->getPixel(posNext2) & TYPE_MASK) == STIX) == STIX && this->pos != posNext) {
 			this->field->replaceAll(STIX_BLUE, UNCLAIMED);
 			this->field->replaceAll(STIX_RED, UNCLAIMED);
@@ -117,6 +116,10 @@ void Player::update()
 
 	this->pos.x - this->pos.x % 2;
 	this->pos.y - this->pos.y % 2;
+
+	if (this->life <= 0) {
+		this->core->requestStateChange(MENU);
+	}
 }
 
 void Player::draw()
@@ -166,6 +169,7 @@ void Player::claimArea() {
 }
 
 void Player::returnToEdge() {
+	this->life--;
 	this->pos = this->posStixSource;
 	this->isDrawing = false;
 	this->deathBlink();

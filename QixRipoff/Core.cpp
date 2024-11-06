@@ -8,7 +8,7 @@ Core::Core() {
 	this->window = Window(1024U, 896U, "pavouk", false);
 	this->mouse.setWindow(&this->window);
 	this->kb.setWindow(&this->window);
-	this->state = GAME;
+	this->state = MENU;
 	this->nextState = NONE;
 	this->initPending = true;
 	this->stateChangePending = false;
