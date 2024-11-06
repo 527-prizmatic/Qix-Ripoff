@@ -69,10 +69,6 @@ namespace states {
 					break;
 				}
 			}
-			if (this->core->getKeyboard().pressed("Kaboom"))
-			{
-				exit(EXIT_SUCCESS);
-			}
 		}
 		else if (toggleOptions)
 		{
@@ -116,6 +112,10 @@ namespace states {
 			{
 				toggleTitleScreen();
 			}
+		}
+		if (this->core->getKeyboard().pressed("Kaboom"))
+		{
+			exit(EXIT_SUCCESS);
 		}
 	}
 
