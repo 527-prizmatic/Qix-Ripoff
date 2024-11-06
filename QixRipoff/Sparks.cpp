@@ -64,15 +64,17 @@ void Sparks::update(GameField* _field, class Player* _plr)
 
 	//	changeDirection(_field, posNext);
 	}
-	
-	for (int i = 0; i < 49; i++) {
-		sf::Vector2u vec(i % 7 - 3, i / 7 - 3);
-		if (_plr->getPos() == this->pos + vec) {
-			_field->replaceAll(STIX_BLUE, UNCLAIMED);
-			_field->replaceAll(STIX_RED, UNCLAIMED);
-			_plr->returnToEdge();
-			_field->generateTexture();
-			break;
+	if (_plr->getTimerMove() > 0.f)
+	{
+		for (int i = 0; i < 49; i++) {
+			sf::Vector2u vec(i % 7 - 3, i / 7 - 3);
+			if (_plr->getPos() == this->pos + vec) {
+				_field->replaceAll(STIX_BLUE, UNCLAIMED);
+				_field->replaceAll(STIX_RED, UNCLAIMED);
+				_plr->returnToEdge();
+				_field->generateTexture();
+				break;
+			}
 		}
 	}
 }

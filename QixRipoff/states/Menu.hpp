@@ -17,5 +17,6 @@ namespace states {
 
 		void toggleOption();
 		void toggleHighscore();
+		void toggleTitleScreen();
 	};
 }

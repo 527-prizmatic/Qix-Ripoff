@@ -3,6 +3,7 @@
 
 sf::Sprite sprite;
 sf::Texture texture;
+sf::Texture textTittleMenu;
 sf::Font font;
 sf::Text text;
 
@@ -10,6 +11,7 @@ sf::RectangleShape rectangle;
 
 bool toggleOptions;
 bool toggleHighscores;
+bool toggleTitleScreens;
 
 //timer = tutil::getDelta();
 
@@ -27,18 +29,19 @@ namespace states {
 
 		texture.loadFromFile("../assets/Textures/bgMenu.png");
 		treatPinkPixelTexture(texture);
-		sprite.setTexture(texture);
 
+		textTittleMenu.loadFromFile("../assets/bgm/tittleScreen.png");
 
 		toggleOptions = false;
 		toggleHighscores = false;
+		toggleTitleScreens = true;
 
 		choix = 0;
 		choixOption = 0;
 	}
 
 	void Menu::update() {
-		if (!toggleOptions && !toggleHighscores)
+		if (!toggleOptions && !toggleHighscores && !toggleTitleScreens)
 		{
 			if (this->core->getKeyboard().pressed("Up"))
 			{
@@ -65,10 +68,6 @@ namespace states {
 				default:
 					break;
 				}
-			}
-			if (this->core->getKeyboard().pressed("Kaboom"))
-			{
-				exit(EXIT_SUCCESS);
 			}
 		}
 		else if (toggleOptions)
@@ -107,42 +106,64 @@ namespace states {
 				toggleHighscore();
 			}
 		}
+		else if (toggleTitleScreens)
+		{
+			if (this->core->getKeyboard().pressed("OK"))
+			{
+				toggleTitleScreen();
+			}
+		}
+		if (this->core->getKeyboard().pressed("Kaboom"))
+		{
+			exit(EXIT_SUCCESS);
+		}
 	}
 
 	void Menu::render() {
-		sprite.setScale(1.f, 1.f);
-		sprite.setPosition(0, 0);
-		this->core->getWindow().draw(sprite);
+		if (!toggleTitleScreens)
+		{
+			sprite.setScale(1.f, 1.f);
+			sprite.setPosition(0, 0);
+			sprite.setTexture(texture);
+			this->core->getWindow().draw(sprite);
 
-		text.setString("Play");
-		text.setCharacterSize(10);
-		text.setFillColor(choix == 0 ? sf::Color::Red : sf::Color::White);
-		text.setPosition(100, 100);
-		this->core->getWindow().draw(text);
+			text.setString("Play");
+			text.setCharacterSize(10);
+			text.setFillColor(choix == 0 ? sf::Color::Red : sf::Color::White);
+			text.setPosition(100, 100);
+			this->core->getWindow().draw(text);
 
-		text.setString("Options");
-		text.setCharacterSize(10);
-		text.setFillColor(choix == 1 ? sf::Color::Red : sf::Color::White);
-		text.setPosition(100, 130);
-		this->core->getWindow().draw(text);
+			text.setString("Options");
+			text.setCharacterSize(10);
+			text.setFillColor(choix == 1 ? sf::Color::Red : sf::Color::White);
+			text.setPosition(100, 130);
+			this->core->getWindow().draw(text);
 
-		text.setString("Hight socre");
-		text.setCharacterSize(10);
-		text.setFillColor(choix == 2 ? sf::Color::Red : sf::Color::White);
-		text.setPosition(100, 160);
-		this->core->getWindow().draw(text);
+			text.setString("Hight socre");
+			text.setCharacterSize(10);
+			text.setFillColor(choix == 2 ? sf::Color::Red : sf::Color::White);
+			text.setPosition(100, 160);
+			this->core->getWindow().draw(text);
 
-		if (toggleOptions) {
-			rectangle.setSize(sf::Vector2f(100, 100));
-			rectangle.setFillColor(sf::Color::Red);
-			rectangle.setPosition(100, 100);
-			this->core->getWindow().draw(rectangle);
+			if (toggleOptions) {
+				rectangle.setSize(sf::Vector2f(100, 100));
+				rectangle.setFillColor(sf::Color::Red);
+				rectangle.setPosition(100, 100);
+				this->core->getWindow().draw(rectangle);
+			}
+			else if (toggleHighscores) {
+				rectangle.setSize(sf::Vector2f(100, 100));
+				rectangle.setFillColor(sf::Color::Green);
+				rectangle.setPosition(100, 130);
+				this->core->getWindow().draw(rectangle);
+			}
 		}
-		else if (toggleHighscores) {
-			rectangle.setSize(sf::Vector2f(100, 100));
-			rectangle.setFillColor(sf::Color::Green);
-			rectangle.setPosition(100, 130);
-			this->core->getWindow().draw(rectangle);
+		else if (toggleTitleScreens)
+		{
+			sprite.setScale(1.f, 1.f);
+			sprite.setPosition(0, 0);
+			sprite.setTexture(textTittleMenu);
+			this->core->getWindow().draw(sprite);
 		}
 	}
 
@@ -170,5 +191,9 @@ namespace states {
 	void Menu::toggleHighscore()
 	{
 		toggleHighscores = !toggleHighscores;
+	}
+	void Menu::toggleTitleScreen()
+	{
+		toggleTitleScreens = !toggleTitleScreens;
 	}
 }
