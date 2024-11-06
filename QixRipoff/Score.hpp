@@ -1,6 +1,7 @@
 #pragma once
 #include "toolbox/toolbox.hpp"
 
+/// Mycelium
 struct HighScore {
 	std::string name;
 	int score;
