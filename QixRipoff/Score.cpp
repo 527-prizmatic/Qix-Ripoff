@@ -2,6 +2,8 @@
 #include "Score.hpp"
 #include "Window.hpp"
 
+const std::string highscoresSavePath = "../assets/highscores.dat";
+
 sf::Text Score::txtDisplay;
 sf::Font Score::txtFont;
 std::vector<struct HighScore> Score::highscores;
@@ -12,36 +14,10 @@ void Score::preinit() {
 	Score::txtDisplay.setCharacterSize(9);
 
 	Score::highscores.reserve(5);
-	for (int i = 0; i < 5; i++) {
-		struct HighScore s = { std::string(), 0 };
-		Score::highscores.push_back(s);
-	}
-
-	std::ofstream fo("../assets/highscores.dat", std::ios::out);
-	if (!fo.fail()) {
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 3; j++) Score::highscores[i].name[j] = rand() % 26 + 65;
-			Score::highscores[i].score = random32() % 1000000 + 1000000;
-			fo.write(Score::highscores[i].name.c_str(), 3);
-			fo.write((char*)&Score::highscores[i].score, sizeof(int));
-			fo.write("\0", 1);
-		}
-		fo.close();
-	}
-
-	std::ifstream f("../assets/highscores.dat", std::ios::in);
-	if (!f.fail()) {
-		for (int i = 0; i < 5; i++) {
-			char* nameBuf = (char*)calloc(3, sizeof(char));
-			if (nameBuf == nullptr) continue;
-			f.read(nameBuf, 3);
-			Score::highscores[i].name = nameBuf;
-			f.read((char*)&Score::highscores[i].score, sizeof(int));
-			f.ignore(1);
-			free(nameBuf);
-		}
-		f.close();
-	}
+//	Score::loadDefaultHighScores();
+//	Score::saveHighScores();
+	Score::loadHighScores();
+	Score::printHighscores();
 }
 
 Score::Score() {
@@ -58,7 +34,56 @@ void Score::render(Window& _w, sf::Vector2u _pos) {
 	_w.draw(Score::txtDisplay);
 }
 
+
+
+void Score::saveHighScores() {
+	std::ofstream fo(highscoresSavePath, std::ios::out);
+	if (!fo.fail()) {
+		for (std::vector<HighScore>::iterator i = Score::highscores.begin(); i != Score::highscores.end(); ++i) {
+			fo.write(i->name.c_str(), 3);
+			fo.write((char*)&i->score, sizeof(int));
+			fo.write("\0", 1);
+		}
+		fo.close();
+	}
+}
+
+void Score::loadHighScores() {
+	std::ifstream f(highscoresSavePath, std::ios::in);
+	if (!f.fail()) {
+		char* nameBuf = (char*)calloc(4, sizeof(char));
+		for (int i = 0; i < 5; i++) {
+			struct HighScore score;
+
+			if (nameBuf == nullptr) continue;
+			f.read(nameBuf, 3);
+			score.name = nameBuf;
+			f.read((char*)&score.score, sizeof(int));
+			f.ignore(1);
+
+			Score::highscores.push_back(score);
+		}
+		free(nameBuf);
+		f.close();
+	}
+}
+
+void Score::loadDefaultHighScores() {
+	Score::highscores.clear();
+	Score::addHighScore("AAA", 100000);
+	Score::addHighScore("AAB", 75000);
+	Score::addHighScore("AAC", 50000);
+	Score::addHighScore("AAD", 25000);
+	Score::addHighScore("AAE", 10000);
+}
+
 void Score::addHighScore(std::string _name, int _score) {
 	struct HighScore s = { _name, _score };
 	Score::highscores.push_back(s);
+}
+
+void Score::printHighscores() {
+	for (std::vector<HighScore>::iterator i = Score::highscores.begin(); i != Score::highscores.end(); ++i) {
+		std::cout << i->name << "   " << i->score << std::endl;
+	}
 }

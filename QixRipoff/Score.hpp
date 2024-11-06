@@ -25,5 +25,10 @@ public:
 	void addScore(const int _val) { this->score += _val; }
 	int getScore() const { return this->score; }
 
-	void addHighScore(std::string _name, int _score);
+	static void saveHighScores();
+	static void loadHighScores();
+	static void loadDefaultHighScores();
+	static void addHighScore(std::string _name, int _score);
+
+	static void printHighscores();
 };
