@@ -2,7 +2,7 @@
 #include "toolbox/toolbox.hpp"
 #include <SFML/Window/Joystick.hpp>
 
-typedef enum gamepadXBOX gamepadXBOX;
+typedef enum GamepadXBOX GamepadXBOX;
 enum GamepadXBOX {
 	DPAD_UP = 0x0001,
 	DPAD_DOWN = 0x0002,
@@ -20,7 +20,7 @@ enum GamepadXBOX {
 	Y = 0x8000
 };
 
-typedef enum stick stick;
+typedef enum Stick Stick;
 enum Stick {
 	STICKL,
 	STICKR,
@@ -35,33 +35,36 @@ namespace ctrl {
 	private : 
 		std::string id;
 		GamepadXBOX key;
-		Stick stick;
 		ButtonState state;
 	public : 
-		ControllerKey(std::string _str, GamepadXBOX _key, Stick _stick);
+		ControllerKey(std::string _str, GamepadXBOX _key);
 		const std::string getId() { return this->id; }
 		const GamepadXBOX getKey() { return this->key; }
-		const Stick getStick() { return this->stick; }
 		const ButtonState getState() { return this->state; }
 		void setKey(GamepadXBOX _key) { this->key = _key; }
-		void setStick(Stick _stick) { this->stick = _stick; }
 		void setState(ButtonState _state) { this->state = _state; }
 	};
 	class Controller
 	{
 	private : 
 		int keyCtrlCount;
-		Window* window;
+		class Window* window;
 		std::vector<ControllerKey> keyReg;
 		sf::Vector2f stickL;
 		sf::Vector2f stickR;
+		sf::Vector2f cross;
+		float TriggerL;
+		float TriggerR;
+		int Bouton[14];
 	public: 
 		Controller();
 		Controller(Window* _window);
 		void setWindow(Window* _window) { this->window = _window; }
-		Controller& addKey(std::string _str, GamepadXBOX _key, Stick _stick);
-		Controller& setKey(std::string _str, GamepadXBOX _key, Stick _stick);
+		Controller& addKey(std::string _str, GamepadXBOX _key);
+		Controller& setKey(std::string _str, GamepadXBOX _key);
 		void GamepadDetection();
+		void GamepadManager(int _joystickId);
+		int Gamepad_isButtonPressed(unsigned int _joystickId, GamepadXBOX _button);
 		void update();
 		bool idle(std::string _str);
 		bool pressed(std::string _str);

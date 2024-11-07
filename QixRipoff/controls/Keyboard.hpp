@@ -26,7 +26,7 @@ namespace ctrl {
 	private:
 		int keyCtrlCount;
 
-		class Window* window;
+			 Window* window;
 		std::vector<KeyEntry> keyReg;
 	public:
 		Keyboard();

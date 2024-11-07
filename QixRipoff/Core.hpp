@@ -4,6 +4,7 @@
 #include "Window.hpp"
 #include "controls/Mouse.hpp"
 #include "controls/Keyboard.hpp"
+#include "Controller.hpp"
 #include "states/State.hpp"
 
 
@@ -28,6 +29,7 @@ private:
 	enum GameState nextState;
 	ctrl::Mouse mouse;
 	ctrl::Keyboard kb;
+	ctrl::Controller controller;
 
 	void initState();
 public:
@@ -47,6 +49,7 @@ public:
 	Window& getWindow() { return this->window; }
 	ctrl::Mouse& getMouse() { return this->mouse; }
 	ctrl::Keyboard& getKeyboard() { return this->kb; }
+	ctrl::Controller& getController() { return this->controller; }
 	void beginRendering();
 	void endRendering();
 };
