@@ -54,3 +54,27 @@ bool Texture::clear() {
 	}
 	return deleted;
 }
+
+void Texture::treatPinkPixels(sf::Texture& _tex) {
+	sf::Image image = _tex.copyToImage();
+	for (unsigned int x = 0; x < image.getSize().x; x++)
+	{
+		for (unsigned int y = 0; y < image.getSize().y; y++)
+		{
+			if (image.getPixel(x, y) == sf::Color(171, 0, 66) || image.getPixel(x, y) == sf::Color(255, 0, 182))
+			{
+				image.setPixel(x, y, sf::Color::Transparent);
+			}
+		}
+	}
+	_tex.update(image);
+}
+
+void Texture::treatPinkPixels(std::string _id) {
+	sf::Texture* tex = nullptr;
+	for (Texture* t : Texture::texList) {
+		if (!t->id.compare(_id)) tex = &(t->tex);
+	}
+
+	if (tex) Texture::treatPinkPixels(*tex);
+}

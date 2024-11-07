@@ -71,8 +71,8 @@ void GameField::generateTexture() {
 	this->tex.loadFromImage(this->img, sf::IntRect(0, 0, this->size.x, this->size.y));
 
 	this->pixelsClaimed = 0;
-	for (int i = 1; i < this->size.x - 1; i++) {
-		for (int j = 1; j < this->size.y - 1; j++) {
+	for (unsigned int i = 1; i < this->size.x - 1; i++) {
+		for (unsigned int j = 1; j < this->size.y - 1; j++) {
 			FieldPixelState pxl = this->getPixel(sf::Vector2u(i, j));
 			if ((pxl != UNCLAIMED) && ((pxl & TYPE_MASK) != STIX)) this->pixelsClaimed++;
 		}
@@ -119,8 +119,8 @@ void GameField::setPixel(sf::Vector2u _pos, FieldPixelState _state) {
 
 bool GameField::replaceAll(FieldPixelState _state_old, FieldPixelState _state_new) {
 	bool replaced = false;
-	for (int y = 0; y < this->size.y; y++) {
-		for (int x = 0; x < this->size.x; x++) {
+	for (unsigned int y = 0; y < this->size.y; y++) {
+		for (unsigned int x = 0; x < this->size.x; x++) {
 			if (this->getPixel(sf::Vector2u(x, y)) == _state_old) {
 				this->setPixel(sf::Vector2u(x, y), _state_new);
 				replaced = true;
@@ -230,8 +230,8 @@ void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
 		posFilled.clear();
 	}
 
-	count = pow(count * .9f, 1.25f) * .1f;
-	if ((_clr & CLR_MASK) == RED) count *= 2.f;
+	count = (int)(pow(count * .9f, 1.25f) * .1f);
+	if ((_clr & CLR_MASK) == RED) count *= 2;
 	this->score->addScore(count);
 }
 

@@ -13,8 +13,6 @@ namespace states {
 		void render();
 		void unload();
 
-		void treatPinkPixelTexture(sf::Texture& texture);
-
 		void toggleOption();
 		void toggleHighscore();
 		void toggleTitleScreen();

@@ -26,9 +26,9 @@ sf::Color hsl_to_rgb(sf::Color _hsl) {
 	else if (hue < 300.f)	rgbPrime = sf::Color(x * 255.f, 0, chroma * 255.f);
 	else					rgbPrime = sf::Color(chroma * 255.f, 0, x * 255.f);
 
-	ret.r = (rgbPrime.r + m);
-	ret.g = (rgbPrime.g + m);
-	ret.b = (rgbPrime.b + m);
+	ret.r = (sf::Uint8)(rgbPrime.r + m);
+	ret.g = (sf::Uint8)(rgbPrime.g + m);
+	ret.b = (sf::Uint8)(rgbPrime.b + m);
 	return ret;
 }
 
@@ -44,7 +44,7 @@ Qix::Qix():Ennemy() {
 	this->timerAfterimages = 0.f;
 }
 
-Qix::Qix(Core* _core, GameField* _field):Ennemy(_core, _field, sf::Vector2u(_field->getSize().x * .5f, _field->getSize().y * .5f)) {
+Qix::Qix(Core* _core, GameField* _field):Ennemy(_core, _field, sf::Vector2u(_field->getSize().x / 2, _field->getSize().y / 2)) {
 	this->angle = 0.f;
 	this->hue = 0.f;
 	this->clr = sf::Color::Red;
