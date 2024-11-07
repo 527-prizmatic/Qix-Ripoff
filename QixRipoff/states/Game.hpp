@@ -13,7 +13,7 @@ namespace states {
 		Core* core;
 		GameField field;
 		Player player;
-		Score score;
+		Score& score;
 		int level;
 
 		static sf::Text txtDisplay;

@@ -134,8 +134,8 @@ Direction Sparks::isThereIntersection(GameField* _field, sf::Vector2u _pos)
 				return RIGHT;
 			}
 		}
-		return NONEDIRECTION;
 	}
+	return NONEDIRECTION;
 }
 
 void Sparks::changeDirection(GameField* _field, sf::Vector2u _pos)

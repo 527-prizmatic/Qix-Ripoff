@@ -5,17 +5,23 @@
 struct HighScore {
 	std::string name;
 	int score;
+
+	// This exploded in the weirdest way possible, out it goes
+	//	bool operator<(const HighScore& _a);
 };
 
 class Score {
 private:
 	int score;
+	inline static sf::Text txtDisplay;
+	inline static sf::Font txtFont;
 
-	static sf::Text txtDisplay;
-	static sf::Font txtFont;
-	static std::vector<struct HighScore> highscores;
-
+	static void printHighscores();
+	static void sortHighscores();
 public:
+	inline static std::vector<struct HighScore> highscores;
+	inline static int enterLeaderboard;
+
 	static void preinit();
 	Score();
 
@@ -29,6 +35,4 @@ public:
 	static void loadHighScores();
 	static void loadDefaultHighScores();
 	static void addHighScore(std::string _name, int _score);
-
-	static void printHighscores();
 };

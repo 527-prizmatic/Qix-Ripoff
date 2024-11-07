@@ -114,11 +114,12 @@ void Player::update()
 		}
 	}
 
-	this->pos.x - this->pos.x % 2;
-	this->pos.y - this->pos.y % 2;
+	this->pos.x -= this->pos.x % 2;
+	this->pos.y -= this->pos.y % 2;
 
 	if (this->life <= 0) {
-		this->core->requestStateChange(MENU);
+		Score::addHighScore("AAA", this->core->getScores().getScore());
+		this->core->requestStateChange(LEADERBOARD);
 	}
 }
 
@@ -141,7 +142,7 @@ void Player::claimArea() {
 	this->isDrawing = false;
 	sf::Vector2u pos = this->posPrev;
 	sf::Vector2u adj1, adj2;
-	GameField::SearchDir dir;
+	GameField::SearchDir dir = GameField::SearchDir::VERTICAL;
 
 	if (this->field->getPixel(pos + sf::Vector2u(1, 0)) == UNCLAIMED && this->field->getPixel(pos - sf::Vector2u(1, 0)) == UNCLAIMED) {
 		adj1 = pos + sf::Vector2u(1, 0);

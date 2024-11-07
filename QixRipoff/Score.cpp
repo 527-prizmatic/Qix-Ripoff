@@ -1,12 +1,16 @@
-#include <fstream>
 #include "Score.hpp"
 #include "Window.hpp"
 
 const std::string highscoresSavePath = "../assets/highscores.dat";
 
-sf::Text Score::txtDisplay;
-sf::Font Score::txtFont;
-std::vector<struct HighScore> Score::highscores;
+// This exploded in the weirdest way possible, out it goes
+//bool HighScore::operator==(const HighScore& _a, const HighScore& _b) {
+//	bool namesOk = !_a.name.compare(_b.name);
+//	bool scoresOk = _a.score == _b.score;
+//	return namesOk && scoresOk;
+//}
+
+//bool HighScore::operator<(const HighScore& _a) { return this->score < _a.score; }
 
 void Score::preinit() {
 	Score::txtFont.loadFromFile("../assets/fonts/qix-small.ttf");
@@ -18,6 +22,10 @@ void Score::preinit() {
 //	Score::saveHighScores();
 	Score::loadHighScores();
 	Score::printHighscores();
+	Score::sortHighscores();
+	Score::printHighscores();
+
+	Score::enterLeaderboard = -1;
 }
 
 Score::Score() {
@@ -53,7 +61,7 @@ void Score::loadHighScores() {
 	if (!f.fail()) {
 		char* nameBuf = (char*)calloc(4, sizeof(char));
 		for (int i = 0; i < 5; i++) {
-			struct HighScore score;
+			HighScore score;
 
 			if (nameBuf == nullptr) continue;
 			f.read(nameBuf, 3);
@@ -73,17 +81,45 @@ void Score::loadDefaultHighScores() {
 	Score::addHighScore("AAA", 100000);
 	Score::addHighScore("AAB", 75000);
 	Score::addHighScore("AAC", 50000);
-	Score::addHighScore("AAD", 25000);
-	Score::addHighScore("AAE", 10000);
+	Score::addHighScore("AAD", 10000);
+	Score::addHighScore("AAE", 25000);
 }
 
 void Score::addHighScore(std::string _name, int _score) {
-	struct HighScore s = { _name, _score };
+	HighScore s = { _name, _score };
+	HighScore& newScore = s;
 	Score::highscores.push_back(s);
+	Score::sortHighscores();
+	
+	for (int i = 0; i < 4; i++) {
+		if (Score::highscores[i].score == newScore.score) {
+			Score::enterLeaderboard = i; break;
+		}
+		else Score::enterLeaderboard = -1;
+	}
+
+	if (Score::highscores.size() == 6) Score::highscores.erase(Score::highscores.begin() + 5);
+	Score::printHighscores();
+	
 }
 
 void Score::printHighscores() {
 	for (std::vector<HighScore>::iterator i = Score::highscores.begin(); i != Score::highscores.end(); ++i) {
 		std::cout << i->name << "   " << i->score << std::endl;
+	}
+}
+
+void Score::sortHighscores() {
+	// This exploded in the weirdest way possible, out it goes
+	//	std::sort(Score::highscores.begin(), Score::highscores.end(), std::greater<HighScore>());
+
+	for (int i = 1; i < Score::highscores.size(); i++) {
+		int k = i;
+		while (Score::highscores[k].score > Score::highscores[k - 1].score && k >= 1) {
+			HighScore tmp = Score::highscores[k];
+			Score::highscores[k] = Score::highscores[k - 1];
+			Score::highscores[k - 1] = tmp;
+			k--;
+		}
 	}
 }

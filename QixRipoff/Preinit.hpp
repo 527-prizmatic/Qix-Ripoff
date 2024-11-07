@@ -4,8 +4,12 @@
 class Core;
 namespace ctrl { class Keyboard; }
 
-extern const std::string KeyOpenMenu;
-extern const std::string KeyOpenGame;
+inline const std::string KeyUp = "Up";
+inline const std::string KeyDown = "Down";
+inline const std::string KeyLeft = "Left";
+inline const std::string KeyRight = "Right";
+inline const std::string KeyOK = "OK";
+inline const std::string KeyKaboom = "Kaboom";
 
 void preinit(Core& _core);
 void registerControls(Core& _core);

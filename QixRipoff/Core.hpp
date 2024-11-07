@@ -5,7 +5,7 @@
 #include "controls/Mouse.hpp"
 #include "controls/Keyboard.hpp"
 #include "states/State.hpp"
-
+#include "Score.hpp"
 
 typedef enum GameState GameState;
 enum GameState {
@@ -14,6 +14,7 @@ enum GameState {
 	INTRO,
 	MENU,
 	GAME,
+	LEADERBOARD,
 	END
 };
 
@@ -28,6 +29,7 @@ private:
 	enum GameState nextState;
 	ctrl::Mouse mouse;
 	ctrl::Keyboard kb;
+	Score scores;
 
 	void initState();
 public:
@@ -47,6 +49,7 @@ public:
 	Window& getWindow() { return this->window; }
 	ctrl::Mouse& getMouse() { return this->mouse; }
 	ctrl::Keyboard& getKeyboard() { return this->kb; }
+	Score& getScores() { return this->scores; }
 	void beginRendering();
 	void endRendering();
 };

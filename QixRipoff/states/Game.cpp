@@ -8,7 +8,7 @@ namespace states {
 	sf::Text Game::txtDisplay;
 	sf::Font Game::txtFont;
 
-	Game::Game(Core* _core) {
+	Game::Game(Core* _core):score(_core->getScores()) {
 		this->core = _core;
 		this->level = 1;
 	}
@@ -16,7 +16,7 @@ namespace states {
 	void Game::init() {
 		this->field = GameField(this->core, sf::Vector2u(161U, 161U), &this->score);
 		this->player = Player(this->core, &this->field, sf::Vector2u(0U, 160U), 3);
-		this->score = Score();
+		this->score = this->core->getScores();
 		this->level = 1;
 
 		Texture::preload("../assets/textures/marker.png", "marker");
