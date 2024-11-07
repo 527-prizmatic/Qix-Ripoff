@@ -19,4 +19,7 @@ public:
 	static bool clear();
 
 	static const sf::Texture& getTexture(std::string _id);
+
+	static void treatPinkPixels(sf::Texture& _tex);
+	static void treatPinkPixels(std::string _id);
 };

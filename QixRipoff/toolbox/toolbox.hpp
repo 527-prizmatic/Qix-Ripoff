@@ -5,6 +5,8 @@
 #include <list>
 #include <optional>
 #include <vector>
+#include <sstream>
+#include <algorithm>
 
 
 #include "SFML/System.hpp"

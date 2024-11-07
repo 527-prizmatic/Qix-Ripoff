@@ -155,6 +155,7 @@
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Sparks.cpp" />
     <ClCompile Include="states\Game.cpp" />
+    <ClCompile Include="states\Leaderboard.cpp" />
     <ClCompile Include="states\Menu.cpp" />
     <ClCompile Include="toolbox\interpolation.cpp" />
     <ClCompile Include="toolbox\random.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Score.hpp" />
     <ClInclude Include="Sparks.hpp" />
     <ClInclude Include="states\Game.hpp" />
+    <ClInclude Include="states\Leaderboard.hpp" />
     <ClInclude Include="states\Menu.hpp" />
     <ClInclude Include="states\State.hpp" />
     <ClInclude Include="toolbox\interpolation.hpp" />

@@ -117,8 +117,8 @@
     <ClCompile Include="Sparks.cpp">
       <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>Source Files\Engine\Controls</Filter>
+    <ClCompile Include="states\Leaderboard.cpp">
+      <Filter>Source Files\State Machine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +185,8 @@
     <ClInclude Include="Sparks.hpp">
       <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.hpp">
-      <Filter>Header Files\Engine\Controls</Filter>
+    <ClInclude Include="states\Leaderboard.hpp">
+      <Filter>Header Files\State Machine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

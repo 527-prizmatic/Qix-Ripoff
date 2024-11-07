@@ -3,19 +3,11 @@
 
 #include "states/Menu.hpp"
 #include "states/Game.hpp"
+#include "states/Leaderboard.hpp"
 
 #include "resources/Textures.hpp"
 
 #include "Score.hpp"
-
-const std::string KeyOpenMenu = "OpenMenu";
-const std::string KeyOpenGame = "OpenGame";
-const std::string KeyUp = "Up";
-const std::string KeyDown = "Down";
-const std::string KeyLeft = "Left";
-const std::string KeyRight = "Right";
-const std::string KeyOK = "OK";
-const std::string KeyKaboom = "Kaboom";
 
 
 const std::string controllerUp = "Up";
@@ -27,16 +19,15 @@ const std::string controllerKaboom = "Kaboom";
 
 
 void preinit(Core& _core) {
-	std::srand(std::time(NULL));
+	std::srand((unsigned int)std::time(NULL));
 	Texture::preinit();
 	Score::preinit();
 	_core.registerState(MENU, (states::State*)(new states::Menu(&_core)));
 	_core.registerState(GAME, (states::State*)(new states::Game(&_core)));
+	_core.registerState(LEADERBOARD, (states::State*)(new states::Leaderboard(&_core)));
 }
 
 void registerControls(Core& _core) {
-//	_core.getKeyboard().addKey(KeyOpenMenu, sf::Keyboard::Key::B);
-//	_core.getKeyboard().addKey(KeyOpenGame, sf::Keyboard::Key::A);
 	_core.getKeyboard().addKey(KeyUp, sf::Keyboard::Key::Up);
 	_core.getKeyboard().addKey(KeyDown, sf::Keyboard::Key::Down);
 	_core.getKeyboard().addKey(KeyLeft, sf::Keyboard::Key::Left);
