@@ -222,7 +222,7 @@ bool GameField::pathfindDetection(sf::Vector2u _src, sf::Vector2u _dest) {
 			else {
 				filled = true;
 				posSearched.push_front(coord);
-				this->setPixel(coord, DEBUG);
+			//	this->setPixel(coord, DEBUG);
 
 				int dist = (coord.x - _dest.x) * (coord.x - _dest.x) + (coord.y - _dest.y) * (coord.y - _dest.y);
 				if (dist > shortestDist * 6) continue; /// Paths that wander too far from the Qix are simply eliminated
