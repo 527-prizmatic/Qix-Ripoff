@@ -7,6 +7,10 @@ const float difficulty = 0.75f;
 float timerMultiMemory = 1.f;
 int lifeMemory = 3;
 
+bool isPaused = false;
+
+sf::RectangleShape Paused;
+
 namespace states {
 	sf::Text Game::txtDisplay;
 	sf::Font Game::txtFont;
@@ -29,29 +33,37 @@ namespace states {
 	}
 
 	void Game::update() {
-		static float endLevelTimer = 0.f;
-		if (this->field.getFillRatio() >= difficulty) {
-			endLevelTimer += tutil::getDelta();
-			if (endLevelTimer >= 2.f) {
-				this->score.addScore((int)(100000 * (this->field.getFillRatio() - difficulty)));
-				this->field = GameField(this->core, sf::Vector2u(161U, 161U), &this->score);
-				timerMultiMemory = this->player.getTimerMultiplier() + 0.1f;
-				if (this->player.getLife() < 3) lifeMemory = this->player.getLife() + 1;
-				else lifeMemory = this->player.getLife();
-				this->player = Player(this->core, &this->field, sf::Vector2u(0U, 160U), lifeMemory);
-				this->player.setTimerMultiplier(timerMultiMemory);
-				this->level++;
+		if (!isPaused)
+		{
+			static float endLevelTimer = 0.f;
+			if (this->field.getFillRatio() >= difficulty) {
+				endLevelTimer += tutil::getDelta();
+				if (endLevelTimer >= 2.f) {
+					this->score.addScore((int)(100000 * (this->field.getFillRatio() - difficulty)));
+					this->field = GameField(this->core, sf::Vector2u(161U, 161U), &this->score);
+					timerMultiMemory = this->player.getTimerMultiplier() + 0.1f;
+					if (this->player.getLife() < 3) lifeMemory = this->player.getLife() + 1;
+					else lifeMemory = this->player.getLife();
+					this->player = Player(this->core, &this->field, sf::Vector2u(0U, 160U), lifeMemory);
+					this->player.setTimerMultiplier(timerMultiMemory);
+					this->level++;
+					this->field.update(this->core, &(this->player));
+					this->player.update();
+					endLevelTimer = 0.f;
+				}
+			}
+			else {
+				endLevelTimer = 0.f;
 				this->field.update(this->core, &(this->player));
 				this->player.update();
-				endLevelTimer = 0.f;
-			}
-		}
-		else {
-			endLevelTimer = 0.f;
-			this->field.update(this->core, &(this->player));
-			this->player.update();
 
-			if (this->core->getKeyboard().pressed("OpenMenu")) this->core->requestStateChange(GameState::MENU);
+				if (this->core->getKeyboard().pressed("OpenMenu")) this->core->requestStateChange(GameState::MENU);
+			}
+			if (this->core->getKeyboard().pressed("Kaboom")) togglePause();
+		}
+		else
+		{
+			if (this->core->getKeyboard().pressed("Kaboom")) togglePause();
 		}
 	}
 
@@ -59,6 +71,16 @@ namespace states {
 		this->field.render(this->core->getWindow());
 		this->player.draw();
 		this->renderHUD();
+		if (isPaused)
+		{
+			Paused.setSize(sf::Vector2f(this->core->getWindow().getSize()));
+			Paused.setFillColor(sf::Color(0, 0, 0, 128));
+			Paused.setPosition(0.f, 0.f);
+			this->core->getWindow().draw(Paused);
+			this->txtDisplay.setString("PAUSED");
+			this->txtDisplay.setPosition(sf::Vector2f(100.f, 100.f));
+			this->core->getWindow().draw(this->txtDisplay);
+		}
 	}
 
 	void Game::unload() {
@@ -76,5 +98,9 @@ namespace states {
 		this->txtDisplay.setString("MOVE BOOST " + std::to_string((float)(this->player.getTimerMultiplier())));
 		this->txtDisplay.setPosition(sf::Vector2f(55.f, 200.f));
 		this->core->getWindow().draw(this->txtDisplay);
+	}
+	void Game::togglePause()
+	{
+		isPaused = !isPaused;
 	}
 }
