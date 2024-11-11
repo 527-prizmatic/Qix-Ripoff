@@ -34,6 +34,7 @@ public:
 	bool isOpen() { return this->window->isOpen(); }
 	bool hasFocus() { return this->window->hasFocus(); }
 	sf::Vector2u getSize() { return this->size; }
+	void createRenderTexture(sf::Vector2u _size) { this->rTex->create(_size.x, _size.y); }
 
 	sf::Vector2f forceAspectRatio(sf::Vector2f _input, float _ratio);
 
