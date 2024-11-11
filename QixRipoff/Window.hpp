@@ -15,12 +15,15 @@ private:
 	float aspectRatio;
 
 	static sf::Sprite renderSpr;
+	static sf::Shader* shaderCrt;
 	void setup();
 
 public:
 	Window();
 	Window(sf::Vector2u _size, std::string _title, bool _fullscreen);
 	Window(unsigned int _width, unsigned int _height, std::string _title, bool _fullscreen);
+
+	static void preinit();
 
 	void beginRendering();
 	void endRendering();
