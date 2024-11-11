@@ -142,30 +142,21 @@ void Player::claimArea() {
 	this->isDrawing = false;
 	sf::Vector2u pos = this->posPrev;
 	sf::Vector2u adj1, adj2;
-	GameField::SearchDir dir = GameField::SearchDir::VERTICAL;
 
 	if (this->field->getPixel(pos + sf::Vector2u(1, 0)) == UNCLAIMED && this->field->getPixel(pos - sf::Vector2u(1, 0)) == UNCLAIMED) {
 		adj1 = pos + sf::Vector2u(1, 0);
 		adj2 = pos - sf::Vector2u(1, 0);
-		dir = GameField::SearchDir::HORIZONTAL;
 	}
 
 	else if (this->field->getPixel(pos + sf::Vector2u(0, 1)) == UNCLAIMED && this->field->getPixel(pos - sf::Vector2u(0, 1)) == UNCLAIMED) {
 		adj1 = pos + sf::Vector2u(0, 1);
 		adj2 = pos - sf::Vector2u(0, 1);
-		dir = GameField::SearchDir::VERTICAL;
 	}
 
-	if (this->isDrawingRed) {
-		this->field->replaceAll(STIX_RED, EDGE);
-		if (this->field->countPathCrossings(adj1, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj1, FieldPixelState::RED);
-		else if (this->field->countPathCrossings(adj2, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj2, FieldPixelState::RED);
-	}
-	else {
-		this->field->replaceAll(STIX_BLUE, EDGE);
-		if (this->field->countPathCrossings(adj1, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj1, FieldPixelState::BLUE);
-		else if (this->field->countPathCrossings(adj2, this->field->getQixPos(0), dir) % 2 == 1) this->field->iterativeFill(adj2, FieldPixelState::BLUE);
-	}
+	FieldPixelState clr = this->isDrawingRed ? FieldPixelState::RED : FieldPixelState::BLUE;
+	this->field->replaceAll((FieldPixelState)(STIX | clr), EDGE);
+	if (!this->field->pathfindDetection(adj1, this->field->getQixPos(0))) this->field->iterativeFill(adj1, clr);
+	else this->field->iterativeFill(adj2, clr);
 	this->field->generateTexture();
 }
 
