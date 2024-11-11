@@ -141,6 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bonus.cpp" />
+    <ClCompile Include="BonusSpeedPlayer.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="controls\Keyboard.cpp" />
     <ClCompile Include="controls\Mouse.cpp" />
@@ -165,6 +167,8 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bonus.hpp" />
+    <ClInclude Include="BonusSpeedPlayer.hpp" />
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="controls\Keyboard.hpp" />
     <ClInclude Include="controls\Mouse.hpp" />
