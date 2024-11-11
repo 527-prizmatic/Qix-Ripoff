@@ -15,6 +15,7 @@ void preinit(Core& _core) {
 	std::srand((unsigned int)std::time(NULL));
 	Texture::preinit();
 	Score::preinit();
+	Window::preinit();
 	_core.registerState(MENU, (states::State*)(new states::Menu(&_core)));
 	_core.registerState(GAME, (states::State*)(new states::Game(&_core)));
 	_core.registerState(LEADERBOARD, (states::State*)(new states::Leaderboard(&_core)));

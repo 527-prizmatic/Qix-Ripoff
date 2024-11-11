@@ -1,6 +1,7 @@
 #include "Window.hpp"
 
 sf::Sprite Window::renderSpr;
+sf::Shader* Window::shaderCrt;
 
 Window::Window() {
 	this->size = sf::Vector2u(800U, 600U);
@@ -26,6 +27,13 @@ Window::Window(unsigned int _width, unsigned int _height, std::string _title, bo
 	this->setup();
 }
 
+void Window::preinit() {
+	Window::shaderCrt = new sf::Shader();
+	if (Window::shaderCrt != nullptr) {
+		Window::shaderCrt->loadFromFile("..\\assets\\shaders\\crt.frag", sf::Shader::Type::Fragment);
+	}
+}
+
 void Window::setup() {
 	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(this->size.x, this->size.y), this->title, this->fullscreen ? 8U : 7U);
 	this->window->setFramerateLimit(60);
@@ -40,10 +48,23 @@ void Window::beginRendering() {
 }
 
 void Window::endRendering() {
+	static float shdTimer = 0.f;
+	shdTimer += tutil::getDelta();
+
 	Window::renderSpr.setTexture(this->rTex->getTexture());
 	Window::renderSpr.setPosition(sf::Vector2f(0.f, (float)this->window->getSize().y));
 	Window::renderSpr.setScale(1.f, -1.f);
-	this->window->draw(Window::renderSpr);
+
+	if (Window::shaderCrt) {
+		Window::shaderCrt->setUniform("texture", this->rTex->getTexture());
+		Window::shaderCrt->setUniform("uRes", this->currentView.value()->getView().getSize());
+		Window::shaderCrt->setUniform("uTime", shdTimer);
+		sf::Vector2f v = sf::Vector2f(this->currentView.value()->getView().getSize().x / (float)this->size.x, this->currentView.value()->getView().getSize().y / (float)this->size.y);
+		Window::shaderCrt->setUniform("uZoom", v);
+		Window::renderSpr.setTexture(this->rTex->getTexture());
+	}
+	
+	this->window->draw(Window::renderSpr, sf::RenderStates(Window::shaderCrt));
 	this->window->display();
 }
 
