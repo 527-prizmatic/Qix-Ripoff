@@ -10,12 +10,6 @@
 #include "Score.hpp"
 
 
-const std::string controllerUp = "Up";
-const std::string controllerDown = "Down";
-const std::string controllerLeft = "Left";
-const std::string controllerRight = "Right";
-const std::string controllerOK = "OK";
-const std::string controllerKaboom = "Kaboom";
 
 
 void preinit(Core& _core) {
@@ -35,10 +29,10 @@ void registerControls(Core& _core) {
 	_core.getKeyboard().addKey(KeyOK, sf::Keyboard::Key::A);
 	_core.getKeyboard().addKey(KeyKaboom, sf::Keyboard::Key::E);
 
-	_core.getController().addKey(controllerUp, DPAD_UP);
-	_core.getController().addKey(controllerDown, DPAD_DOWN);
-	_core.getController().addKey(controllerLeft, DPAD_LEFT);
-	_core.getController().addKey(controllerRight, DPAD_RIGHT);
-	_core.getController().addKey(controllerOK, A);
-	_core.getController().addKey(controllerKaboom, B);
+	_core.getController().addKey(KeyUp, DPAD_UP);
+	_core.getController().addKey(KeyDown, DPAD_DOWN);
+	_core.getController().addKey(KeyLeft, DPAD_LEFT);
+	_core.getController().addKey(KeyRight, DPAD_RIGHT);
+	_core.getController().addKey(KeyOK, A);
+	_core.getController().addKey(KeyKaboom, B);
 }
