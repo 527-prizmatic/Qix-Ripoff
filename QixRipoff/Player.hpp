@@ -11,6 +11,7 @@ private:
 	sf::Vector2u posPrev;
 	float timerMove;
 	int life;
+	float timerMultiplier;
 	
 	sf::Vector2u posStixSource;
 	bool isDrawing;
@@ -32,6 +33,12 @@ public:
 
 	sf::Vector2u getPos() const { return this->pos; }
 	float getTimerMove() const { return this->timerMove; }
+
+	void setTimerMultiplier(float _timerMultiplier) { this->timerMultiplier = _timerMultiplier; }
+	float getTimerMultiplier() const { return this->timerMultiplier; }
+
+	void setLife(int _life) { this->life = _life; }
+	int getLife() const { return this->life; }
 };
 
 

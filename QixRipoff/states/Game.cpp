@@ -4,6 +4,9 @@
 
 const float difficulty = 0.75f;
 
+float timerMultiMemory = 1.f;
+int lifeMemory = 3;
+
 namespace states {
 	sf::Text Game::txtDisplay;
 	sf::Font Game::txtFont;
@@ -32,7 +35,11 @@ namespace states {
 			if (endLevelTimer >= 2.f) {
 				this->score.addScore((int)(100000 * (this->field.getFillRatio() - difficulty)));
 				this->field = GameField(this->core, sf::Vector2u(161U, 161U), &this->score);
-				this->player = Player(this->core, &this->field, sf::Vector2u(0U, 160U), 3);
+				timerMultiMemory = this->player.getTimerMultiplier() + 0.1f;
+				if (this->player.getLife() < 3) lifeMemory = this->player.getLife() + 1;
+				else lifeMemory = this->player.getLife();
+				this->player = Player(this->core, &this->field, sf::Vector2u(0U, 160U), lifeMemory);
+				this->player.setTimerMultiplier(timerMultiMemory);
 				this->level++;
 				this->field.update(this->core, &(this->player));
 				this->player.update();
@@ -61,7 +68,13 @@ namespace states {
 	void Game::renderHUD() {
 		this->score.render(this->core->getWindow(), sf::Vector2u(48U, 18U));
 		this->txtDisplay.setString("LV" + std::to_string(this->level) + " " + std::to_string((int)(this->field.getFillRatio() * 100)) + " OF " + std::to_string((int)(difficulty * 100)));
-		this->txtDisplay.setPosition(sf::Vector2f(100.f, 18.f));
+		this->txtDisplay.setPosition(sf::Vector2f(70.f, 18.f));
+		this->core->getWindow().draw(this->txtDisplay);
+		this->txtDisplay.setString("LIFE " + std::to_string(this->player.getLife()));
+		this->txtDisplay.setPosition(sf::Vector2f(170.f, 18.f));
+		this->core->getWindow().draw(this->txtDisplay);
+		this->txtDisplay.setString("MOVE BOOST " + std::to_string((float)(this->player.getTimerMultiplier())));
+		this->txtDisplay.setPosition(sf::Vector2f(55.f, 200.f));
 		this->core->getWindow().draw(this->txtDisplay);
 	}
 }
