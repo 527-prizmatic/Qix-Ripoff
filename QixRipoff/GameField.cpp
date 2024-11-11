@@ -10,6 +10,7 @@ const sf::Color clrRed = sf::Color(146, 36, 16, 255);
 const sf::Color clrStixBlue = sf::Color(0, 125, 123, 128);
 const sf::Color clrStixRed = sf::Color(146, 36, 16, 128);
 const sf::Color clrEdge = sf::Color::White;
+const sf::Color clrDebug = sf::Color(0, 255, 0, 32);
 
 GameField::GameField() {
 	this->img.create(127U, 127U, sf::Color::Transparent);
@@ -102,6 +103,7 @@ FieldPixelState GameField::getPixel(sf::Vector2u _pos) {
 	if (clr == clrBlue)			return CLAIMED_BLUE;
 	if (clr == clrRed)			return CLAIMED_RED;
 	if (clr == clrEdge)			return EDGE;
+	if (clr == clrDebug)		return DEBUG;
 	return CLAIMED_BLUE;	
 }
 
@@ -114,6 +116,7 @@ void GameField::setPixel(sf::Vector2u _pos, FieldPixelState _state) {
 	if (_state == CLAIMED_BLUE)	clr = clrBlue;
 	if (_state == CLAIMED_RED)	clr = clrRed;
 	if (_state == EDGE)			clr = clrEdge;
+	if (_state == DEBUG)		clr = clrDebug;
 	this->img.setPixel(_pos.x, _pos.y, clr);
 }
 
@@ -197,6 +200,97 @@ int GameField::countPathCrossings(sf::Vector2u _src, sf::Vector2u _dest, enum Se
 	}
 
 	return crossings;
+}
+
+bool GameField::pathfindDetection(sf::Vector2u _src, sf::Vector2u _dest) {
+	std::list<sf::Vector2u> posToSearch;
+	std::list<sf::Vector2u> posSearched;
+	std::list<sf::Vector2u> posWillSearch;
+	_dest = sf::Vector2u(_dest.x + ((_dest.x + 1) % 2), _dest.y + ((_dest.y + 1) % 2));
+	posToSearch.push_back(_src);
+
+	/// Used to check how close to the Qix the nearest valid point found was
+	int shortestDist = 100000000;
+
+	while (1) {
+		/// Used to check if any progress could be made on a given pass
+		bool filled = false;
+
+		int iterator = 0;
+		for (sf::Vector2u coord : posToSearch) {
+			if (coord == _dest) return true; /// Stop everything immediately if we reached the requested coordinate
+			else {
+				filled = true;
+				posSearched.push_front(coord);
+			//	this->setPixel(coord, DEBUG);
+
+				int dist = (coord.x - _dest.x) * (coord.x - _dest.x) + (coord.y - _dest.y) * (coord.y - _dest.y);
+				if (dist > shortestDist * 6) continue; /// Paths that wander too far from the Qix are simply eliminated
+				if (dist < shortestDist) shortestDist = dist;
+
+				/// As all player movement is snapped on a 2x2 pixel grid, two arrays of vectors are used.
+				/// One is used to detect if the next point on the player's movement grid is accessible at all via pathfinding...
+				std::array<sf::Vector2u, 4> posNext{{
+					coord + sf::Vector2u(1, 0),
+					coord - sf::Vector2u(1, 0),
+					coord + sf::Vector2u(0, 1),
+					coord - sf::Vector2u(0, 1)
+				}};
+
+				/// ...the other for adding the next point to the search list.
+				std::array<sf::Vector2u, 4> posNext2{ {
+					coord + sf::Vector2u(2, 0),
+					coord - sf::Vector2u(2, 0),
+					coord + sf::Vector2u(0, 2),
+					coord - sf::Vector2u(0, 2)
+				} };
+
+
+				for (int i = 0; i < 4; i++) {
+					if (this->getPixel(posNext[i]) == UNCLAIMED) { /// Is that pixel an empty pixel?
+						bool alreadySearched = false;
+
+						for (sf::Vector2u s : posWillSearch) {
+							if (s == posNext2[i]) { /// Is that pixel already on the to-do list?
+								alreadySearched = true;
+								break;
+							}
+						}
+
+						if (!alreadySearched) {
+							for (sf::Vector2u s : posToSearch) {
+								if (s == posNext2[i]) { /// Are we already going to scan this pixel on this pass?
+									alreadySearched = true;
+									break;
+								}
+							}
+
+							if (!alreadySearched) {
+								for (sf::Vector2u s : posSearched) {
+									if (s == posNext2[i]) { /// Did we already scan it? (computationally heavy, better do it as late as possible)
+										alreadySearched = true;
+										break;
+									}
+								}
+
+								/// If none of that is true, search that pixel on the next pass
+								if (!alreadySearched) posWillSearch.push_back(posNext2[i]);
+							}
+						}
+					}
+				}
+			}
+
+			iterator++;
+		}
+
+		if (!filled) break;
+		posToSearch.clear();
+		posToSearch = std::list<sf::Vector2u>(posWillSearch);
+		posWillSearch.clear();
+	}
+
+	return false;
 }
 
 void GameField::iterativeFill(sf::Vector2u _pos, FieldPixelState _clr) {
