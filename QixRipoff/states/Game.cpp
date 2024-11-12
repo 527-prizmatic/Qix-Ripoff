@@ -57,13 +57,13 @@ namespace states {
 				this->field.update(this->core, &(this->player));
 				this->player.update();
 
-				if (this->core->getKeyboard().pressed("OpenMenu")) this->core->requestStateChange(GameState::MENU);
+				if (this->core->getKeyboard().pressed(KeyOK)) this->core->requestStateChange(GameState::MENU);
 			}
-			if (this->core->getKeyboard().pressed("Kaboom")) togglePause();
+			if (this->core->getKeyboard().pressed(KeyPaused)) togglePause();
 		}
 		else
 		{
-			if (this->core->getKeyboard().pressed("Kaboom")) togglePause();
+			if (this->core->getKeyboard().pressed(KeyPaused)) togglePause();
 		}
 	}
 

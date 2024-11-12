@@ -29,6 +29,7 @@ void registerControls(Core& _core) {
 	_core.getKeyboard().addKey(KeyRight, sf::Keyboard::Key::Right);
 	_core.getKeyboard().addKey(KeyOK, sf::Keyboard::Key::A);
 	_core.getKeyboard().addKey(KeyKaboom, sf::Keyboard::Key::E);
+	_core.getKeyboard().addKey(KeyPaused, sf::Keyboard::Key::Enter);
 
 	_core.getController().addKey(KeyUp, DPAD_UP);
 	_core.getController().addKey(KeyDown, DPAD_DOWN);

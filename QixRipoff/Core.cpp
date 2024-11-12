@@ -34,7 +34,7 @@ void Core::update() {
 	this->kb.update();
 	for (int i = 0; i < 4; i++)
 	{
-		this->controller.GamepadManager(i);
+	//	this->controller.GamepadManager(i); // Dis fucked up
 	}
 	this->controller.update();
 	
