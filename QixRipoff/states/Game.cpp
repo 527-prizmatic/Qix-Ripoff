@@ -56,8 +56,6 @@ namespace states {
 				endLevelTimer = 0.f;
 				this->field.update(this->core, &(this->player));
 				this->player.update();
-
-				if (this->core->getKeyboard().pressed(KeyOK)) this->core->requestStateChange(GameState::MENU);
 			}
 			if (this->core->getKeyboard().pressed(KeyPaused)) togglePause();
 		}
