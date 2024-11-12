@@ -14,6 +14,7 @@ Core::Core() {
 	this->initPending = true;
 	this->stateChangePending = false;
 	this->window.setView(new View(sf::Vector2f(0.f, 0.f), sf::Vector2f(256.f, 224.f)));
+	this->window.createRenderTexture(sf::Vector2u(256, 224));
 
 	preinit(*this);
 	registerControls(*this);

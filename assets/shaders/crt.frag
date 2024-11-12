@@ -3,38 +3,44 @@ uniform float uTime;
 uniform vec2 uZoom;
 uniform sampler2D texture;
 
-float clamp(float _a, float _l, float _u) {
-	if (_a < _l) return _l;
-	else if (_a > _u) return _u;
-	else return _a;
+float harmonics(float _a, float _harm) {
+	return sin(_a * 3.1415 * _harm) / pow(3., _harm - 1);
 }
 
-float pow4(float _a) {
-	return _a * _a * _a * _a;
+float harmonics_sum(float _a, float _harmonics) {
+	float sum = 0.;
+	for (float i = 0.; i < _harmonics; i += 1.) {
+		sum += harmonics(_a, i * 2. + 1.);
+	}
+
+	return sum;
 }
 
 void main() {
 	vec2 uv = (gl_FragCoord / uRes);
+	vec2 uvScaled = uv * uZoom;
 
 	vec2 px = gl_TexCoord[0].xy;
 	vec2 dist = vec2(0., 0.);
-
-	dist.x = (sin(uv.y * uZoom.y * 3.14) * (.5 - uv.x * uZoom.x)) * .025;
-	dist.y = (sin(uv.x * uZoom.x * 3.14) * (.5 - uv.y * uZoom.y)) * .025;
+	
+	dist.x = .1 * (.5 - uvScaled.x) * harmonics_sum(uvScaled.y, 4.);
+	dist.y = -.1 * (.5 - uvScaled.y) * harmonics_sum(uvScaled.x, 4.);
 	px += dist;
+	px.y = 1. - px.y;
 
-//	:trolle:
-//	px.x += sin(uTime * 3. + uv.x * 5.) * .001;
-//	px.y += sin(uTime * 3. + uv.y * 5.) * .001;
+	vec2 pxZoomOut = px * 1.2 - vec2(.1);
+	vec4 clr = vec4(0., 0., 0., 1.);
+	if (pxZoomOut.x >= 0. && pxZoomOut.y >= 0. && pxZoomOut.x <= 1. && pxZoomOut.y <= 1.) {
+		clr = texture2D(texture, px * 1.2 - vec2(.1));
 
-	vec4 clr = texture2D(texture, px);
-	float scanline = clamp(sin(px.y * 3000. + uTime * 4.) * .5 + .25, 0., 1.);
-	clr.r += .005;
-	clr.g += .01;
-	clr.b += .02;
-	clr.r *= 1. - .25 * scanline;
-	clr.g *= 1. + .125 * scanline;
-	clr.b *= 1. + scanline;
+		float scanline = clamp(sin(px.y * 750. + uTime * 4.) * 10 + .5, 0., 1.);
+		clr.r += .005;
+		clr.g += .01;
+		clr.b += .02;
+		clr.r *= 1. - .25 * scanline;
+		clr.g *= 1. + .125 * scanline;
+		clr.b *= 1. + scanline;
+	}
 	
 	gl_FragColor = clr;
 }

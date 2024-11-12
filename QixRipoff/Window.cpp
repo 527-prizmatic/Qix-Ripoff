@@ -52,8 +52,8 @@ void Window::endRendering() {
 	shdTimer += tutil::getDelta();
 
 	Window::renderSpr.setTexture(this->rTex->getTexture());
-	Window::renderSpr.setPosition(sf::Vector2f(0.f, (float)this->window->getSize().y));
-	Window::renderSpr.setScale(1.f, -1.f);
+
+
 
 	if (Window::shaderCrt) {
 		Window::shaderCrt->setUniform("texture", this->rTex->getTexture());
@@ -62,6 +62,11 @@ void Window::endRendering() {
 		sf::Vector2f v = sf::Vector2f(this->currentView.value()->getView().getSize().x / (float)this->size.x, this->currentView.value()->getView().getSize().y / (float)this->size.y);
 		Window::shaderCrt->setUniform("uZoom", v);
 		Window::renderSpr.setTexture(this->rTex->getTexture());
+	}
+	else {
+		/// The screen flip directly comes integrated into the shader, but it never hurts to still have it just in case the shader fails
+		Window::renderSpr.setPosition(sf::Vector2f(0.f, (float)this->rTex->getSize().y));
+		Window::renderSpr.setScale(1.f, -1.f);
 	}
 	
 	this->window->draw(Window::renderSpr, sf::RenderStates(Window::shaderCrt));
