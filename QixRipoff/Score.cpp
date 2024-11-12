@@ -21,9 +21,9 @@ void Score::preinit() {
 //	Score::loadDefaultHighScores();
 //	Score::saveHighScores();
 	Score::loadHighScores();
-	Score::printHighscores();
+	// Score::printHighscores();
 	Score::sortHighscores();
-	Score::printHighscores();
+	// Score::printHighscores();
 
 	Score::enterLeaderboard = -1;
 }
@@ -99,7 +99,7 @@ void Score::addHighScore(std::string _name, int _score) {
 	}
 
 	if (Score::highscores.size() == 6) Score::highscores.erase(Score::highscores.begin() + 5);
-	Score::printHighscores();
+	// Score::printHighscores();
 	
 }
 

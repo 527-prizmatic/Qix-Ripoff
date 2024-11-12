@@ -86,12 +86,12 @@ namespace states {
 	}
 
 	void Game::renderHUD() {
-		this->score.render(this->core->getWindow(), sf::Vector2u(48U, 18U));
+		this->score.render(this->core->getWindow(), sf::Vector2u(32U, 18U));
 		this->txtDisplay.setString("LV" + std::to_string(this->level) + " " + std::to_string((int)(this->field.getFillRatio() * 100)) + " OF " + std::to_string((int)(difficulty * 100)));
-		this->txtDisplay.setPosition(sf::Vector2f(70.f, 18.f));
+		this->txtDisplay.setPosition(sf::Vector2f(86.f, 18.f));
 		this->core->getWindow().draw(this->txtDisplay);
 		this->txtDisplay.setString("LIFE " + std::to_string(this->player.getLife()));
-		this->txtDisplay.setPosition(sf::Vector2f(170.f, 18.f));
+		this->txtDisplay.setPosition(sf::Vector2f(186.f, 18.f));
 		this->core->getWindow().draw(this->txtDisplay);
 		this->txtDisplay.setString("MOVE BOOST " + std::to_string((float)(this->player.getTimerMultiplier())));
 		this->txtDisplay.setPosition(sf::Vector2f(55.f, 200.f));
