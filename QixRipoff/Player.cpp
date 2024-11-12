@@ -10,6 +10,7 @@ Player::Player()
 	this->pos = sf::Vector2u(0, 0);
 	this->posPrev = sf::Vector2u(0, 0);
 	this->life = 0;
+	this->timerMultiplier = 1.f;
 	this->timerMove = 0.f;
 	this->isDrawing = false;
 	this->isDrawingRed = false;
@@ -22,6 +23,7 @@ Player::Player(Core* _core, GameField* _field, sf::Vector2u _pos, int life)
 	this->pos = _pos;
 	this->posPrev = _pos;
 	this->life = life;
+	this->timerMultiplier = 1.f;
 	this->timerMove = 0.f;
 	this->isDrawing = false;
 	this->isDrawingRed = false;
@@ -36,7 +38,7 @@ void Player::update()
 	if (this->core->getKeyboard().held("Kaboom")) slow = true;
 	if (!this->isDrawing) slow = false;
 
-	if ((timerMove > 0.05f && !slow) || (timerMove > 0.1f && slow))
+	if ((timerMove * timerMultiplier > 0.05f && !slow) || (timerMove * timerMultiplier > 0.1f && slow))
 	{
 		sf::Vector2u posNext = this->pos;
 		sf::Vector2u posNext2 = this->pos;

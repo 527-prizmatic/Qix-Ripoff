@@ -41,5 +41,7 @@ public:
 	inline View* getView() { return this->currentView.value(); }
 	inline void resetView() { this->currentView.reset(); }
 
+	sf::Event getEvent() { return this->evt; }
+
 	void toggleFullscreen();
 };

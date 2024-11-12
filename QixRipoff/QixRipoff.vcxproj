@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="controls\Keyboard.cpp" />
     <ClCompile Include="controls\Mouse.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controller.hpp" />
     <ClInclude Include="controls\Keyboard.hpp" />
     <ClInclude Include="controls\Mouse.hpp" />
     <ClInclude Include="Core.hpp" />

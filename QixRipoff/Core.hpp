@@ -4,6 +4,7 @@
 #include "Window.hpp"
 #include "controls/Mouse.hpp"
 #include "controls/Keyboard.hpp"
+#include "Controller.hpp"
 #include "states/State.hpp"
 #include "Score.hpp"
 
@@ -29,6 +30,7 @@ private:
 	enum GameState nextState;
 	ctrl::Mouse mouse;
 	ctrl::Keyboard kb;
+	ctrl::Controller controller;
 	Score scores;
 
 	void initState();
@@ -49,6 +51,7 @@ public:
 	Window& getWindow() { return this->window; }
 	ctrl::Mouse& getMouse() { return this->mouse; }
 	ctrl::Keyboard& getKeyboard() { return this->kb; }
+	ctrl::Controller& getController() { return this->controller; }
 	Score& getScores() { return this->scores; }
 	void beginRendering();
 	void endRendering();

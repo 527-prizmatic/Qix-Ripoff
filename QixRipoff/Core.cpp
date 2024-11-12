@@ -8,6 +8,7 @@ Core::Core() {
 	this->window = Window(1024U, 896U, "pavouk", false);
 	this->mouse.setWindow(&this->window);
 	this->kb.setWindow(&this->window);
+	this->controller.setWindow(&this->window);
 	this->state = MENU;
 	this->nextState = NONE;
 	this->initPending = true;
@@ -31,6 +32,12 @@ void Core::update() {
 	tutil::restart();
 	this->mouse.update();
 	this->kb.update();
+	for (int i = 0; i < 4; i++)
+	{
+		this->controller.GamepadManager(i);
+	}
+	this->controller.update();
+	
 
 	sf::Vector2f viewSize = this->window.forceAspectRatio(sf::Vector2f(256.f, 224.f), targetAspectRatio);
 	this->window.getView()->setSize(viewSize);
