@@ -123,6 +123,9 @@
     <ClCompile Include="states\Leaderboard.cpp">
       <Filter>Source Files\State Machine</Filter>
     </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controls\Mouse.hpp">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="states\Leaderboard.hpp">
       <Filter>Header Files\State Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -26,5 +26,7 @@ namespace states {
 		void unload();
 
 		void renderHUD();
+
+		void togglePause();
 	};
 }

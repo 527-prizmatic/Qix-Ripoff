@@ -11,6 +11,7 @@
 
 
 
+
 void preinit(Core& _core) {
 	std::srand((unsigned int)std::time(NULL));
 	Texture::preinit();
@@ -28,4 +29,11 @@ void registerControls(Core& _core) {
 	_core.getKeyboard().addKey(KeyRight, sf::Keyboard::Key::Right);
 	_core.getKeyboard().addKey(KeyOK, sf::Keyboard::Key::A);
 	_core.getKeyboard().addKey(KeyKaboom, sf::Keyboard::Key::E);
+
+	_core.getController().addKey(KeyUp, DPAD_UP);
+	_core.getController().addKey(KeyDown, DPAD_DOWN);
+	_core.getController().addKey(KeyLeft, DPAD_LEFT);
+	_core.getController().addKey(KeyRight, DPAD_RIGHT);
+	_core.getController().addKey(KeyOK, A);
+	_core.getController().addKey(KeyKaboom, B);
 }

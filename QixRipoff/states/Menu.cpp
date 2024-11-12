@@ -46,17 +46,17 @@ namespace states {
 	void Menu::update() {
 		if (!toggleOptions && !toggleHighscores && !toggleTitleScreens)
 		{
-			if (this->core->getKeyboard().pressed("Up"))
+			if (this->core->getKeyboard().pressed("Up") || this->core->getController().pressed("Up"))
 			{
 				choix--;
 			}
-			if (this->core->getKeyboard().pressed("Down"))
+			if (this->core->getKeyboard().pressed("Down") || this->core->getController().pressed("Down"))
 			{
 				choix++;
 			}
 			if (choix > 2) choix = 0;
 			if (choix < 0) choix = 2;
-			if (this->core->getKeyboard().pressed("OK"))
+			if (this->core->getKeyboard().pressed("OK") || this->core->getController().pressed("OK"))
 			{
 				switch (choix) {
 				case 0:
@@ -75,17 +75,17 @@ namespace states {
 		}
 		else if (toggleOptions)
 		{
-			if (this->core->getKeyboard().pressed("Up"))
+			if (this->core->getKeyboard().pressed("Up") || this->core->getController().pressed("Up"))
 			{
 				choixOption--;
 			}
-			if (this->core->getKeyboard().pressed("Down"))
+			if (this->core->getKeyboard().pressed("Down") || this->core->getController().pressed("Down"))
 			{
 				choixOption++;
 			}
 			if (choixOption > 3) choixOption = 0;
 			if (choixOption < 0) choixOption = 3;
-			if (this->core->getKeyboard().pressed("OK"))
+			if (this->core->getKeyboard().pressed("OK") || this->core->getController().pressed("OK"))
 			{
 				switch (choixOption) {
 				case 0:
@@ -104,19 +104,19 @@ namespace states {
 		}
 		else if (toggleHighscores)
 		{
-			if (this->core->getKeyboard().pressed("OK"))
+			if (this->core->getKeyboard().pressed("OK") || this->core->getController().pressed("OK"))
 			{
 				toggleHighscore();
 			}
 		}
 		else if (toggleTitleScreens)
 		{
-			if (this->core->getKeyboard().pressed("OK"))
+			if (this->core->getKeyboard().pressed("OK") || this->core->getController().pressed("OK"))
 			{
 				toggleTitleScreen();
 			}
 		}
-		if (this->core->getKeyboard().pressed("Kaboom"))
+		if (this->core->getKeyboard().pressed("Kaboom") || this->core->getController().pressed("Kaboom"))
 		{
 			exit(EXIT_SUCCESS);
 		}
