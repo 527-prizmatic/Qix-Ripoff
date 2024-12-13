@@ -1,4 +1,4 @@
-# Qix Ripoff :sparkles:
+# Qix Ripoff ❇️
 A clone of the 1981 arcade game _Qix_, developed as a team of two in one week and a half, as part of the second formation year in French video game school Game Academy.
 
 As part of the assignment, a few additional mechanics have been implemented.
